@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.markdown p {
+    @apply my-4;
+}
+
+.markdown h1 {
+    @apply text-3xl font-bold my-12;
+}
+
+.markdown h2 {
+    @apply text-2xl font-bold my-10;
+}
+
+.markdown h3 {
+    @apply text-xl font-bold my-8;
+}
+
+.markdown h4 {
+    @apply text-lg font-bold my-6;
+}
+
+.markdown h5 {
+    @apply text-base font-bold my-4;
+}
+
+.markdown h6 {
+    @apply text-sm font-bold my-2;
+}
+
+.markdown ul {
+    @apply list-disc pl-0 ml-4;
+}
+
+.markdown ol {
+    @apply list-decimal pl-0 ml-4;
+}
+
+.markdown li {
+    @apply my-4;
+}
+
+.markdown ul ol,
+.markdown ol ul,
+.markdown ul ul,
+.markdown ol ol {
+    @apply pl-6 my-6; /* Added pl-4 to nested lists */
+}
+
+.markdown blockquote {
+    @apply border-l-4 bg-[#c3c3ff11] text-[#635BFF] border-gray-400 pl-4 my-2;
+}
+
+.markdown code {
+    @apply bg-[#c3c3ff11] text-[#635BFF] px-2 py-1 rounded;
+}
+
+.markdown pre {
+    @apply bg-[#c3c3ff11] p-4 rounded;
+}
+
+.markdown pre code {
+    @apply block bg-transparent p-0 overflow-visible rounded-none;
+}
+
+.markdown a {
+    @apply text-[#635BFF];
+}

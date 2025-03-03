@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "editor.fontFamily": "'Geist Mono', 'monospace', monospace",
+  "editor.defaultFormatter": "vscode.typescript-language-features",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
+}
