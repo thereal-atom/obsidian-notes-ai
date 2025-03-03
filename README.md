@@ -11,4 +11,4 @@ built with:
 - Supabase + supabase-js
 - Google Generative AI (Gemini and Text Embedding)
 
-[<img src="https://github.com/thereal-atom/obsidian-notes-ai/blob/cba1429d9b4d7abd77018f4b3cbc3d6d2ecec470/public/screenshots/example.png">](https://oscarfal.vercel.app)
+[<img src="https://github.com/thereal-atom/obsidian-notes-ai/blob/main/public/screenshots/example.png">](https://oscarfal.vercel.app)
