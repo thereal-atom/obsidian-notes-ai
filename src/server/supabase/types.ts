@@ -15,58 +15,31 @@ export type Database = {
           id: string
           initialUserPrompt: string
           systemPrompt: string
-          userId: string
+          vaultId: string
         }
         Insert: {
           createdAt?: string
           id: string
           initialUserPrompt: string
           systemPrompt: string
-          userId: string
+          vaultId: string
         }
         Update: {
           createdAt?: string
           id?: string
           initialUserPrompt?: string
           systemPrompt?: string
-          userId?: string
+          vaultId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "conversations_userId_fkey"
-            columns: ["userId"]
+            foreignKeyName: "conversations_vaultId_fkey"
+            columns: ["vaultId"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "vaults"
             referencedColumns: ["id"]
           },
         ]
-      }
-      embeddings: {
-        Row: {
-          content: string
-          createdAt: string
-          embedding: string
-          id: string
-          source: string
-          userId: string
-        }
-        Insert: {
-          content: string
-          createdAt?: string
-          embedding: string
-          id: string
-          source: string
-          userId: string
-        }
-        Update: {
-          content?: string
-          createdAt?: string
-          embedding?: string
-          id?: string
-          source?: string
-          userId?: string
-        }
-        Relationships: []
       }
       message_relevant_notes: {
         Row: {
@@ -140,7 +113,7 @@ export type Database = {
           embedding: string
           id: string
           name: string
-          userId: string
+          vaultId: string
         }
         Insert: {
           content: string
@@ -148,7 +121,7 @@ export type Database = {
           embedding: string
           id: string
           name: string
-          userId: string
+          vaultId: string
         }
         Update: {
           content?: string
@@ -156,14 +129,14 @@ export type Database = {
           embedding?: string
           id?: string
           name?: string
-          userId?: string
+          vaultId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "notes_userId_fkey"
-            columns: ["userId"]
+            foreignKeyName: "notes_vaultId_fkey"
+            columns: ["vaultId"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "vaults"
             referencedColumns: ["id"]
           },
         ]
@@ -191,16 +164,19 @@ export type Database = {
           createdAt: string
           id: string
           name: string
+          userId: string
         }
         Insert: {
           createdAt?: string
           id: string
           name: string
+          userId: string
         }
         Update: {
           createdAt?: string
           id?: string
           name?: string
+          userId?: string
         }
         Relationships: []
       }

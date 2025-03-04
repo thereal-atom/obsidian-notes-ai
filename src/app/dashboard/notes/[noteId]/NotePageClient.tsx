@@ -1,6 +1,6 @@
 "use client";
 
-import type { Note } from "~/server/db";
+import type { Note } from "~/server/supabase";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useEffect, useState } from "react";

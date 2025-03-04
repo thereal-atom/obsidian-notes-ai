@@ -1,12 +1,17 @@
-import { db } from "~/server/db";
-import { initTRPC } from "@trpc/server";
+import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 import { googleEmbeddingModel, googleGeminiModel } from "../gemini";
+import { createClient } from "~/utils/supabase/server";
 
 export const createTRPCContext = async (opts: { headers: Headers }) => {
+    const supabase = await createClient();
+
+    const { data: { user } } = await supabase.auth.getUser();
+
     return {
-        db,
+        db: supabase,
+        user,
         gemini: googleGeminiModel,
         embedding: googleEmbeddingModel,
         ...opts,
@@ -58,3 +63,17 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
 });
 
 export const publicProcedure = t.procedure.use(timingMiddleware);
+
+const isAuthed = t.middleware(({ ctx, next }) => {
+    if (!ctx.user || ctx.user.role !== "authenticated") {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+    return next({
+        ctx: {
+            ...ctx,
+            user: ctx.user,
+        },
+    });
+});
+
+export const protectedProcedure = t.procedure.use(isAuthed);

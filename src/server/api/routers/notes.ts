@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { newId } from "~/utils/id";
 
 export const notesRouter = createTRPCRouter({
-    getById: publicProcedure
+    getById: protectedProcedure
         .input(z.string())
         .query(async ({
             ctx,
@@ -29,9 +29,11 @@ export const notesRouter = createTRPCRouter({
 
             return note;
         }),
-    getAll: publicProcedure
+    getAll: protectedProcedure
+        .input(z.object({ vaultId: z.string() }))
         .query(async ({
             ctx,
+            input,
         }) => {
             const {
                 data: notes,
@@ -39,6 +41,7 @@ export const notesRouter = createTRPCRouter({
             } = await ctx.db
                 .from("notes")
                 .select("*")
+                .eq("vaultId", input.vaultId)
                 .order("createdAt", { ascending: false })
                 .limit(100);
 
@@ -52,14 +55,17 @@ export const notesRouter = createTRPCRouter({
 
             return notes;
         }),
-    uploadMultipleNotes: publicProcedure
+    uploadMultipleNotes: protectedProcedure
         .input(
-            z.array(
-                z.object({
-                    name: z.string(),
-                    content: z.string(),
-                })
-            )
+            z.object({
+                notes: z.array(
+                    z.object({
+                        name: z.string(),
+                        content: z.string(),
+                    })
+                ),
+                vaultId: z.string(),
+            })
         )
         .mutation(async ({
             ctx,
@@ -67,7 +73,7 @@ export const notesRouter = createTRPCRouter({
         }) => {
             // todo: can only batch 100 at a time
             const embeddingResponse = await ctx.embedding.batchEmbedContents({
-                requests: input.map((note) => ({ content: { role: "user", parts: [{ text: note.content }] } })),
+                requests: input.notes.map((note) => ({ content: { role: "user", parts: [{ text: note.content }] } })),
             });
 
             const embeddings = embeddingResponse.embeddings.map(
@@ -80,7 +86,8 @@ export const notesRouter = createTRPCRouter({
             } = await ctx.db
                 .from("notes")
                 .select("*")
-                .in("name", input.map(note => note.name));
+                .eq("vaultId", input.vaultId)
+                .in("name", input.notes.map(note => note.name));
 
             if (getExistingNotesError) {
                 console.error(getExistingNotesError);
@@ -94,20 +101,22 @@ export const notesRouter = createTRPCRouter({
             } = await ctx.db
                 .from("notes")
                 .upsert(embeddings.map((embedding, index) => {
-                    const name = input[index]!.name;
-                    const content = input[index]!.content;
+                    const name = input.notes[index]!.name;
+                    const content = input.notes[index]!.content;
 
                     const existingNote = existingNotes.find(note => note.name === name);
 
                     return {
-                        id: existingNote ? existingNote.id : newId("note"),
+                        id: existingNote
+                            ? existingNote.id
+                            : newId("note"),
                         name,
                         content,
                         embedding: JSON.stringify(embedding),
-                        userId: "user_bFogjdS48x7XhYCzczv9JW",
+                        vaultId: input.vaultId,
                     }
                 }), {
-                    onConflict: "name,userId",
+                    onConflict: "name,vaultId",
                 })
                 .select("*");
 

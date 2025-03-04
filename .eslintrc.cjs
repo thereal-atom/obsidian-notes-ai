@@ -28,6 +28,11 @@ const config = {
             { checksVoidReturn: { attributes: false }, },
         ],
         indent: ["error", 4],
+        quotes: [
+            "error",
+            "double"
+        ],
+        "@typescript-eslint/no-unsafe-assignment": "off",
     },
 };
 module.exports = config;

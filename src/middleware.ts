@@ -1,13 +1,16 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { updateSession } from "~/utils/supabase/middleware";
 
-export function middleware(request: NextRequest) {
-    console.log(request.nextUrl);
+export async function middleware(request: NextRequest) {
     if (request.nextUrl.pathname === "/") {
         return NextResponse.redirect(new URL("/dashboard/chats", request.url));
     }
-    return NextResponse.next();
+
+    return await updateSession(request);
 }
 
 export const config = {
-    matcher: "/",
+    matcher: [
+        "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    ],
 };

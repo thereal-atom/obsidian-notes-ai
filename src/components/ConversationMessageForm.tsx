@@ -1,10 +1,11 @@
 "use client";
 
-import type { Conversation, ConversationMessage } from "~/server/db";
+import type { Conversation, ConversationMessage } from "~/server/supabase";
 import { api } from "~/trpc/react";
 import { useState } from "react";
 import { newId } from "~/utils/id";
 import { useDashboardStore } from "~/store/dashboard-store";
+// import { useCompletion } from "@ai-sdk/react";
 
 interface Props {
     onMessageSent: (message: ConversationMessage) => void;
@@ -20,11 +21,29 @@ export default function ConversationMessageForm({
     const [prompt, setPrompt] = useState("");
     const { mutate, isPending } = api.conversations.sendConversationMessage.useMutation();
     const addConversation = useDashboardStore(state => state.addConversation);
+    const activeVault = useDashboardStore(state => state.activeVault);
+
+    // const {
+    //     completion,
+    //     complete,
+    // } = useCompletion({ api: "/api/chat-stream" });
 
     const handleSendMessage = (event: React.FormEvent) => {
         event.preventDefault();
 
         if (!prompt) return;
+
+        // void complete(prompt);
+
+        // fetchLlmResponseStream({
+        //     prompt,
+        // }, {
+        //     onMessageChunk: async (chunk) => {
+        //         console.log(chunk);
+
+        //         await new Promise(resolve => setTimeout(resolve, 20));
+        //     },
+        // });
 
         if (conversationId) {
             onMessageSent({
@@ -36,34 +55,39 @@ export default function ConversationMessageForm({
             });
         };
 
-        mutate(
-            {
-                message: prompt,
-                conversationId,
-            },
-            {
-                onSuccess: (data) => {
-                    if (conversationId) {
-                        onMessageSent({
-                            content: data.responseText,
-                            role: "llm",
-                            conversationId: data.conversation.id,
-                            createdAt: new Date().toISOString(),
-                            id: newId("message"),
-                            relevantNotes: data.llmMessage.relevantNotes,
-                        });
-                    } else {
-                        addConversation(data.conversation);
+        // onMessageSent({
+        //     content: "",
+        // })
 
-                        onConversationStarted(data.conversation);
-                    }
-                    setPrompt("");
-                },
-                onError: (error) => {
-                    console.error("Error sending message:", error);
-                },
-            }
-        );
+        // mutate(
+        //     {
+        //         message: prompt,
+        //         conversationId,
+        //         vaultId: activeVault?.id,
+        //     },
+        //     {
+        //         onSuccess: (data) => {
+        //             if (conversationId) {
+        //                 onMessageSent({
+        //                     content: data.responseText,
+        //                     role: "llm",
+        //                     conversationId: data.conversation.id,
+        //                     createdAt: new Date().toISOString(),
+        //                     id: newId("message"),
+        //                     relevantNotes: data.llmMessage.relevantNotes,
+        //                 });
+        //             } else {
+        //                 addConversation(data.conversation);
+
+        //                 onConversationStarted(data.conversation);
+        //             }
+        //             setPrompt("");
+        //         },
+        //         onError: (error) => {
+        //             console.error("Error sending message:", error);
+        //         },
+        //     }
+        // );
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {

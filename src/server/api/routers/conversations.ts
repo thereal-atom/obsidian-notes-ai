@@ -1,14 +1,68 @@
-import type { Conversation } from "~/server/db";
+import type { Conversation } from "~/server/supabase";
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { generateEmbeddings } from "~/server/gemini/utils";
 import { newId } from "~/utils/id";
 import { systemPrompt } from "~/server/gemini";
 
 export const conversationsRouter = createTRPCRouter({
-    sendConversationMessage: publicProcedure
+    saveMessage: protectedProcedure
+        .input(z.object({
+            conversationId: z.string(),
+            message: z.string(),
+            role: z.union([
+                z.literal("user"),
+                z.literal("llm"),
+            ]),
+        }))
+        .mutation(async ({ ctx, input }) => {
+            const {
+                data: conversation,
+                error,
+            } = await ctx.db
+                .from("conversations")
+                .select("*")
+                .eq("id", input.conversationId)
+                .maybeSingle();
+
+            if (error) {
+                throw error;
+            };
+
+            if (!conversation) {
+                throw new Error("Conversation not found");
+            };
+
+            const {
+                data: message,
+                error: messageInsertError,
+            } = await ctx.db
+                .from("messages")
+                .insert({
+                    id: newId("message"),
+                    content: input.message,
+                    role: input.role,
+                    conversationId: conversation.id,
+                })
+                .select("*")
+                .maybeSingle();
+
+            if (messageInsertError) {
+                console.error(messageInsertError);
+
+                throw new Error("error inserting message");
+            };
+
+            if (!message) {
+                throw new Error("error inserting message");
+            };
+
+            return message;
+        }),
+    sendConversationMessage: protectedProcedure
         .input(z.object({
             conversationId: z.string().optional(),
+            vaultId: z.string().optional(),
             message: z.string(),
         }))
         .mutation(async ({
@@ -47,6 +101,7 @@ export const conversationsRouter = createTRPCRouter({
                         content: input.message,
                         role: "user",
                         conversationId: conversation.id,
+                        vaultId: conversation.vaultId,
                         createdAt: new Date().toISOString(),
                     })
                     .select("*")
@@ -58,6 +113,10 @@ export const conversationsRouter = createTRPCRouter({
 
                 // userMessage = newUserMessage;
             } else {
+                if (!input.vaultId) {
+                    throw new Error("vaultId required when creating a new conversation. provide a vaultId, or an id for an existing conversation.");
+                };
+
                 const {
                     data: newConversation,
                     error,
@@ -65,7 +124,7 @@ export const conversationsRouter = createTRPCRouter({
                     .from("conversations")
                     .insert({
                         id: newId("conversation"),
-                        userId: "user_bFogjdS48x7XhYCzczv9JW",
+                        vaultId: input.vaultId,
                         systemPrompt,
                         initialUserPrompt: input.message,
                     })
@@ -106,7 +165,7 @@ export const conversationsRouter = createTRPCRouter({
                 throw new Error("no relevant notes found");
             }
 
-            const context = relevantNotes.map((result) => result.content).join("\n\n");
+            const context = relevantNotes.map((result) => `identifier: [[${result.source}]]\n\n${result.content}`).join("\n\n");
 
             const {
                 data: conversationMessages,
@@ -185,6 +244,8 @@ export const conversationsRouter = createTRPCRouter({
                 .insert(inserts);
 
             if (insertMessageRelevantNotesError) {
+                console.error(insertMessageRelevantNotesError);
+
                 throw new Error("error inserting message relevant notes");
             };
 
@@ -202,7 +263,7 @@ export const conversationsRouter = createTRPCRouter({
                 },
             };
         }),
-    getById: publicProcedure
+    getById: protectedProcedure
         .input(z.string())
         .query(async ({
             ctx,
@@ -215,6 +276,7 @@ export const conversationsRouter = createTRPCRouter({
                 .from("conversations")
                 .select("*, messages(*, message_relevant_notes(*, notes(*)))")
                 .eq("id", id)
+                // .order("messages.createdAt", { ascending: false })
                 .maybeSingle();
 
             if (error) {
@@ -227,15 +289,21 @@ export const conversationsRouter = createTRPCRouter({
 
             return {
                 ...conversation,
-                messages: conversation.messages.map((msg) => ({
-                    ...msg,
-                    relevantNotes: msg.message_relevant_notes.map(message_notes => message_notes.notes),
-                })),
+                messages: conversation.messages
+                    .map((msg) => ({
+                        ...msg,
+                        relevantNotes: msg.message_relevant_notes.map(message_notes => message_notes.notes),
+                    }))
+                    .sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
             };
         }),
-    getAll: publicProcedure
+    getAll: protectedProcedure
+        .input(z.object({
+            vaultId: z.string(),
+        }))
         .query(async ({
             ctx,
+            input,
         }) => {
             const {
                 data: conversations,
@@ -243,6 +311,7 @@ export const conversationsRouter = createTRPCRouter({
             } = await ctx.db
                 .from("conversations")
                 .select("*")
+                .eq("vaultId", input.vaultId)
                 .order("createdAt", { ascending: false })
                 .limit(100);
 

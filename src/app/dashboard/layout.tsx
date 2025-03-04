@@ -1,26 +1,27 @@
-import ChatsLayoutClient from "~/components/ChatsLayoutClient";
-import DashboardSidebar from "~/components/DashboardSidebar";
+import { redirect } from "next/navigation";
+import DashboardLayoutClient from "~/components/DashboardLayoutClient";
 import { api } from "~/trpc/server";
+import { createClient } from "~/utils/supabase/server";
 
 export default async function ChatsLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const conversations = await api.conversations.getAll();
-    const notes = await api.notes.getAll();
+    const supabase = await createClient();
+
+    const { data, error } = await supabase.auth.getUser()
+    if (error || !data?.user) {
+        redirect("/auth/login")
+    }
+
+    const vaults = await api.vaults.getAll();
 
     return (
-        <div className="flex flex-row justify-center w-screen h-screen overflow-hidden bg-[#15131C] font-[family-name:var(--font-geist-sans)]">
-            <ChatsLayoutClient
-                conversations={conversations}
-                notes={notes}
-            >
-                <DashboardSidebar />
-            </ChatsLayoutClient>
-            <div className="w-full h-full">
-                {children}
-            </div>
-        </div>
+        <DashboardLayoutClient
+            vaults={vaults}
+        >
+            {children}
+        </DashboardLayoutClient>
     );
 }
