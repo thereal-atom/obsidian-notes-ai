@@ -63,7 +63,36 @@ export const vaultsRouter = createTRPCRouter({
                 .eq("userId", ctx.user.id);
 
             if (error) {
+                console.error(error);
+
                 throw new Error("error fetching all vaults");
+            };
+
+            if (vaults.length <= 0) {
+                const {
+                    data: newVault,
+                    error: newVaultError,
+                } = await ctx.db
+                    .from("vaults")
+                    .insert({
+                        id: newId("vault"),
+                        name: "New Vault",
+                        userId: ctx.user.id,
+                    })
+                    .select("*")
+                    .maybeSingle();
+
+                if (newVaultError) {
+                    console.error(newVaultError);
+
+                    throw new Error("error creating new vault");
+                };
+
+                if (!newVault) {
+                    throw new Error("error creating new vault");
+                }
+
+                return { vaults: [newVault] };
             };
 
             return vaults;

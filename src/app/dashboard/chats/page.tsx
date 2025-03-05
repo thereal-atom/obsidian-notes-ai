@@ -1,19 +1,43 @@
 "use client"
 
-import type { Conversation } from "~/server/supabase";
-import ConversationMessageForm from "~/components/ConversationMessageForm";
 import { useRouter } from "next/navigation";
 import { useDashboardStore } from "~/store/dashboard-store";
 import Link from "next/link";
+import { api } from "~/trpc/react";
+import ConversationMessageForm from "~/components/ConversationMessageForm";
+import { useState } from "react";
 
 export default function ChatsHome() {
+    const [prompt, setPrompt] = useState("");
+
     const notes = useDashboardStore(state => state.notes);
     const activeVault = useDashboardStore(state => state.activeVault);
 
+    const addConversation = useDashboardStore(state => state.addConversation);
+
+    const {
+        mutate: createConversationMutate,
+        isPending: isCreateConversationPending,
+    } = api.conversations.create.useMutation();
+
     const router = useRouter();
 
-    const handleConversationStarted = (conversation: Conversation) => {
-        void router.push(`/dashboard/chats/${conversation.id}`);
+    const handleSendMessage = async (prompt: string) => {
+        if (!prompt || !activeVault) return;
+
+        createConversationMutate(
+            {
+                prompt,
+                vaultId: activeVault.id,
+            },
+            {
+                onSuccess: (newConversation) => {
+                    addConversation(newConversation);
+
+                    void router.push(`/dashboard/chats/${newConversation.id}?isNew=true&prompt=${encodeURIComponent(prompt)}`);
+                },
+            }
+        )
     };
 
     return (
@@ -33,9 +57,10 @@ export default function ChatsHome() {
                     </div>
                 </div>
                 <ConversationMessageForm
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
-                    onMessageSent={() => { }}
-                    onConversationStarted={handleConversationStarted}
+                    onMessageSent={handleSendMessage}
+                    prompt={prompt}
+                    setPrompt={setPrompt}
+                    isDisabled={isCreateConversationPending}
                 />
             </div>
         </div>

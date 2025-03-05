@@ -1,93 +1,26 @@
 "use client";
 
-import type { Conversation, ConversationMessage } from "~/server/supabase";
-import { api } from "~/trpc/react";
-import { useState } from "react";
-import { newId } from "~/utils/id";
-import { useDashboardStore } from "~/store/dashboard-store";
-// import { useCompletion } from "@ai-sdk/react";
-
 interface Props {
-    onMessageSent: (message: ConversationMessage) => void;
-    onConversationStarted: (conversation: Conversation) => void;
-    conversationId?: string;
+    onMessageSent: (prompt: string) => void;
+    prompt: string;
+    setPrompt: (value: string) => void;
+    isCompletionLoading?: boolean;
+    isDisabled?: boolean;
 }
 
 export default function ConversationMessageForm({
     onMessageSent,
-    onConversationStarted,
-    conversationId,
+    prompt,
+    setPrompt,
+    isCompletionLoading,
+    isDisabled,
 }: Props) {
-    const [prompt, setPrompt] = useState("");
-    const { mutate, isPending } = api.conversations.sendConversationMessage.useMutation();
-    const addConversation = useDashboardStore(state => state.addConversation);
-    const activeVault = useDashboardStore(state => state.activeVault);
+    const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
-    // const {
-    //     completion,
-    //     complete,
-    // } = useCompletion({ api: "/api/chat-stream" });
+        if (isCompletionLoading || isDisabled || !prompt) return;
 
-    const handleSendMessage = (event: React.FormEvent) => {
-        event.preventDefault();
-
-        if (!prompt) return;
-
-        // void complete(prompt);
-
-        // fetchLlmResponseStream({
-        //     prompt,
-        // }, {
-        //     onMessageChunk: async (chunk) => {
-        //         console.log(chunk);
-
-        //         await new Promise(resolve => setTimeout(resolve, 20));
-        //     },
-        // });
-
-        if (conversationId) {
-            onMessageSent({
-                content: prompt,
-                role: "user",
-                conversationId,
-                createdAt: new Date().toISOString(),
-                id: newId("message"),
-            });
-        };
-
-        // onMessageSent({
-        //     content: "",
-        // })
-
-        // mutate(
-        //     {
-        //         message: prompt,
-        //         conversationId,
-        //         vaultId: activeVault?.id,
-        //     },
-        //     {
-        //         onSuccess: (data) => {
-        //             if (conversationId) {
-        //                 onMessageSent({
-        //                     content: data.responseText,
-        //                     role: "llm",
-        //                     conversationId: data.conversation.id,
-        //                     createdAt: new Date().toISOString(),
-        //                     id: newId("message"),
-        //                     relevantNotes: data.llmMessage.relevantNotes,
-        //                 });
-        //             } else {
-        //                 addConversation(data.conversation);
-
-        //                 onConversationStarted(data.conversation);
-        //             }
-        //             setPrompt("");
-        //         },
-        //         onError: (error) => {
-        //             console.error("Error sending message:", error);
-        //         },
-        //     }
-        // );
+        onMessageSent(prompt);
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -112,9 +45,10 @@ export default function ConversationMessageForm({
             <div className="flex flex-col h-full justify-end">
                 <button
                     className="ml-2 px-3 py-2 bg-[#635BFF] text-white text-sm font-bold rounded-md hover:cursor-pointer disabled:opacity-50"
-                    disabled={isPending}
+                    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                    disabled={isDisabled || isCompletionLoading}
                 >
-                    {isPending ? "Sending..." : "Send"}
+                    {isCompletionLoading ? "Sending..." : "Send"}
                 </button>
             </div>
         </form>

@@ -20,6 +20,7 @@ export default async function ChatsLayout({
     return (
         <DashboardLayoutClient
             vaults={vaults}
+            user={data.user}
         >
             {children}
         </DashboardLayoutClient>

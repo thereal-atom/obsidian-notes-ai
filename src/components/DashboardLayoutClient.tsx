@@ -1,6 +1,7 @@
 "use client"
 
-import type { Conversation, Note, Vault } from "~/server/supabase";
+import type { Vault } from "~/server/supabase";
+import type { User } from "@supabase/supabase-js";
 import ChatsLayoutClient from "./ChatsLayoutClient";
 import DashboardSidebar from "./DashboardSidebar";
 import { useEffect } from "react";
@@ -10,9 +11,11 @@ import { api } from "~/trpc/react";
 export default function DashboardLayoutClient({
     vaults,
     children,
+    user,
 }: {
     vaults: Vault[];
     children: React.ReactNode;
+    user: User,
 }) {
     const setActiveVault = useDashboardStore(state => state.setActiveVault);
     const setConversations = useDashboardStore(state => state.setConversations);
@@ -68,7 +71,6 @@ export default function DashboardLayoutClient({
         }
     });
 
-    // Loading state
     if (!conversations || !notes || conversationsQuery.isLoading || notesQuery.isLoading) {
         return <div>Loading...</div>;
     }
@@ -82,7 +84,7 @@ export default function DashboardLayoutClient({
                 notes={notes}
                 vaults={vaults}
             >
-                <DashboardSidebar />
+                <DashboardSidebar user={user} />
             </ChatsLayoutClient>
             <div className="w-full h-full">
                 {children}

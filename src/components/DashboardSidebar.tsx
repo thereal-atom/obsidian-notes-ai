@@ -1,10 +1,14 @@
 "use client";
 
+import type { User } from "@supabase/supabase-js";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useDashboardStore } from "~/store/dashboard-store";
+import Image from "next/image";
 
-export default function DashboardSidebar() {
+export default function DashboardSidebar({ user }: {
+    user: User,
+}) {
     const pathname = usePathname();
 
     const conversations = useDashboardStore(state => state.conversations);
@@ -15,9 +19,9 @@ export default function DashboardSidebar() {
     if (!conversations || !notes || !vaults) return <div>Loading...</div>;
 
     return (
-        <div className="w-[300px] h-screen max-h-screen border-r border-[#c3c3ff33] overflow-y-scroll">
+        <div className="w-[300px] min-w-[300px] h-screen max-h-screen border-r border-[#c3c3ff33]">
             <div className="flex flex-col h-full">
-                <div className="flex flex-col h-full p-6">
+                <div className="flex flex-col h-full p-6 overflow-y-scroll">
                     <div className="flex flex-col">
                         <Link
                             className="text-xl font-bold"
@@ -57,14 +61,29 @@ export default function DashboardSidebar() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full py-4 px-6 border-t border-[#c3c3ff33]">
-                    <a
-                        className="font-bold"
-                        href="/dashboard/vaults"
+                <div className="flex flex-row items-center w-full p-4 border-t border-[#c3c3ff33]">
+                    <Link
+                        className=""
+                        href="/dashboard/account"
                     >
-                        Vaults
-                    </a>
-                    <p className="text-sm font-medium">Active: {activeVault?.name}</p>
+                        <div className="p-2 bg-[#c3c3ff11] rounded-md">
+                            <Image
+                                width={24}
+                                height={24}
+                                src="/user-icon.svg"
+                                alt={user.email ?? ""}
+                            />
+                        </div>
+                    </Link>
+                    <div className="flex flex-col ml-4">
+                        <a
+                            className="font-bold"
+                            href="/dashboard/vaults"
+                        >
+                            Vaults
+                        </a>
+                        <p className="text-sm font-medium">Active: {activeVault?.name}</p>
+                    </div>
                 </div>
             </div>
         </div>

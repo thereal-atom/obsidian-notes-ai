@@ -6,19 +6,24 @@ import { api } from "~/trpc/react";
 import { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { newId } from "~/utils/id";
 import ObsidianFileBadge from "~/components/ObsidianFileBadge";
 import { useCompletion } from "@ai-sdk/react";
+import { z } from "zod";
+import ConversationMessageForm from "~/components/ConversationMessageForm";
 
 export default function ChatPage() {
     const { conversationId } = useParams<{ conversationId: string }>();
+    const searchParams = useSearchParams();
+    const router = useRouter();
+
     const [prompt, setPrompt] = useState("");
     const [messages, setMessages] = useState<(ConversationMessage)[]>([]);
     const [wasMessageRecentlySent, setWasMessageRecentlySent] = useState(false);
+
     const lastMessageRef = useRef<HTMLDivElement>(null);
 
-    const { mutate, isPending } = api.conversations.sendConversationMessage.useMutation();
     const { mutate: saveMessageMutate, isPending: isSaveMessagePending } = api.conversations.saveMessage.useMutation();
 
     const {
@@ -34,9 +39,7 @@ export default function ChatPage() {
         isLoading: isCompletionLoading,
     } = useCompletion({ api: "/api/chat-stream" });
 
-    const handleSendMessage = (event: React.FormEvent) => {
-        event.preventDefault();
-
+    const handleSendMessage = (prompt: string) => {
         if (!prompt) return;
 
         setWasMessageRecentlySent(true);
@@ -97,15 +100,29 @@ export default function ChatPage() {
         };
     }, [wasMessageRecentlySent, isCompletionLoading, completion, saveMessageMutate, conversationId]);
 
+    useEffect(() => {
+        const searchParamsData = Object.fromEntries(searchParams);
+        if (!searchParamsData) return;
+
+        const params = z.object({
+            isNew: z.coerce.boolean(),
+            prompt: z.string(),
+        }).safeParse(searchParamsData);
+
+        if (params.success && params.data) {
+            if (!params.data.isNew) return;
+
+            void router.replace(window.location.pathname);
+
+            setWasMessageRecentlySent(true);
+
+            setPrompt(params.data.prompt);
+            void complete(params.data.prompt);
+        };
+    }, [searchParams]);
+
     if (isLoading) return <div>Loading...</div>;
     if (isError) return <div>Error: {error?.message}</div>;
-
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if (event.key === "Enter" && !event.shiftKey) {
-            event.preventDefault();
-            event.currentTarget.form?.requestSubmit();
-        }
-    };
 
     return (
         <div className="flex flex-col justify-center items-center w-full h-full">
@@ -116,7 +133,6 @@ export default function ChatPage() {
                             <div
                                 className={`flex flex-row ${message.role === "user" ? "justify-end" : "justify-start"} w-full mb-8`}
                                 key={index}
-                                ref={index === messages.length - 1 ? lastMessageRef : null} // Attach ref to last message
                             >
                                 <div className={`flex flex-col p-4 rounded-md ${message.role === "user" ? "bg-[#c3c3ff11] border border-[#c3c3ff33]" : ""}`}>
                                     <div className={message.role === "user" ? "font-semibold" : "markdown"}>
@@ -153,37 +169,18 @@ export default function ChatPage() {
                                 </div>
                             </div>
                         }
+                        <p ref={lastMessageRef}></p>
                     </div>
                 </div>
             </div>
             <div className="w-[75%] my-8">
-                {/* <ConversationMessageForm
-                    onMessageSent={handleMessageSent}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
-                    onConversationStarted={() => { }}
-                    conversationId={conversationId}
-                /> */}
-
-                <form
-                    className="flex flex-row items-center w-full p-4 bg-[#c3c3ff11] rounded-md border border-[#c3c3ff33]"
-                    onSubmit={handleSendMessage}
-                >
-                    <textarea
-                        className="w-full h-6 bg-transparent font-medium align-text-top resize-none focus:outline-none"
-                        placeholder="Summarize my notes in autoencoders.md"
-                        value={prompt}
-                        onChange={(e) => setPrompt(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                    ></textarea>
-                    <div className="flex flex-col h-full justify-end">
-                        <button
-                            className="ml-2 px-3 py-2 bg-[#635BFF] text-white text-sm font-bold rounded-md hover:cursor-pointer disabled:opacity-50"
-                            disabled={isPending || isCompletionLoading || isSaveMessagePending}
-                        >
-                            {isPending ? "Sending..." : "Send"}
-                        </button>
-                    </div>
-                </form>
+                <ConversationMessageForm
+                    onMessageSent={handleSendMessage}
+                    prompt={prompt}
+                    setPrompt={setPrompt}
+                    isCompletionLoading={isCompletionLoading}
+                    isDisabled={isSaveMessagePending}
+                />
             </div>
         </div>
     );
