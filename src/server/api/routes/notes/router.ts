@@ -9,19 +9,14 @@ export const notesRouter = createTRPCRouter({
             ctx,
             input: id,
         }) => {
-            const {
-                data: note,
-                error,
-            } = await ctx.db
-                .from("notes")
-                .select("*")
-                .eq("id", id)
-                .order("createdAt", { ascending: false })
-                .maybeSingle();
-
-            if (error) {
-                throw error;
-            }
+            const note = await ctx.prisma.notes.findFirst({
+                where: {
+                    id: id,
+                },
+                orderBy: {
+                    createdAt: "desc",
+                },
+            });
 
             if (!note) {
                 throw new Error("Note not found");
@@ -35,19 +30,15 @@ export const notesRouter = createTRPCRouter({
             ctx,
             input,
         }) => {
-            const {
-                data: notes,
-                error,
-            } = await ctx.db
-                .from("notes")
-                .select("*")
-                .eq("vaultId", input.vaultId)
-                .order("createdAt", { ascending: false })
-                .limit(100);
-
-            if (error) {
-                throw error;
-            }
+            const notes = await ctx.prisma.notes.findMany({
+                where: {
+                    vaultId: input.vaultId,
+                },
+                orderBy: {
+                    createdAt: "desc",
+                },
+                take: 100,
+            });
 
             if (!notes) {
                 throw new Error("Notes not found");
@@ -80,20 +71,14 @@ export const notesRouter = createTRPCRouter({
                 (embedding) => embedding.values
             );
 
-            const {
-                data: existingNotes,
-                error: getExistingNotesError,
-            } = await ctx.db
-                .from("notes")
-                .select("*")
-                .eq("vaultId", input.vaultId)
-                .in("name", input.notes.map(note => note.name));
-
-            if (getExistingNotesError) {
-                console.error(getExistingNotesError);
-
-                throw new Error("error getting existing notes");
-            };
+            const existingNotes = await ctx.prisma.notes.findMany({
+                where: {
+                    vaultId: input.vaultId,
+                    name: {
+                        in: input.notes.map(note => note.name),
+                    },
+                },
+            });
 
             const {
                 data: updatedNotes,

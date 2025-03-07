@@ -1,7 +1,7 @@
 "use client"
 
 import type { ConversationMessage } from "~/server/supabase";
-// import ConversationMessageForm from "~/components/ConversationMessageForm";
+import type { notes } from "@prisma/client";
 import { api } from "~/trpc/react";
 import { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
@@ -19,7 +19,9 @@ export default function ChatPage() {
     const router = useRouter();
 
     const [prompt, setPrompt] = useState("");
-    const [messages, setMessages] = useState<(ConversationMessage)[]>([]);
+    const [messages, setMessages] = useState<(ConversationMessage & {
+        relevantNotes?: notes[];
+    })[]>([]);
     const [wasMessageRecentlySent, setWasMessageRecentlySent] = useState(false);
 
     const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -68,7 +70,7 @@ export default function ChatPage() {
                     content: conversation.initialUserPrompt,
                     role: "user",
                     conversationId: conversation.id,
-                    createdAt: new Date().toISOString(),
+                    createdAt: new Date(),
                 },
                 ...conversation.messages,
             ]);

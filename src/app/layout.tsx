@@ -14,10 +14,18 @@ export const metadata: Metadata = {
 export default function RootLayout({
     children,
 }: Readonly<{ children: React.ReactNode }>) {
+    const isDevelopment = process.env.NODE_ENV === "development";
+
     return (
         <html lang="en" className={`${GeistSans.variable} bg-[#15131C] text-white`}>
             <body>
-                <TRPCReactProvider>{children}</TRPCReactProvider>
+                {isDevelopment ? (
+                    <TRPCReactProvider>{children}</TRPCReactProvider>
+                ) : (
+                    <div className="flex items-center justify-center h-screen w-screen">
+                        <p className="text-3xl font-bold text-accent">Under Construction</p>
+                    </div>
+                )}
             </body>
         </html>
     );

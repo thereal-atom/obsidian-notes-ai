@@ -1,16 +1,19 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
+import { PrismaClient } from "@prisma/client";
 import { googleEmbeddingModel, googleGeminiModel } from "../gemini";
 import { createClient } from "~/utils/supabase/server";
 
 export const createTRPCContext = async (opts: { headers: Headers }) => {
     const supabase = await createClient();
+    const prisma = new PrismaClient();
 
     const { data: { user } } = await supabase.auth.getUser();
 
     return {
         db: supabase,
+        prisma,
         user,
         gemini: googleGeminiModel,
         embedding: googleEmbeddingModel,

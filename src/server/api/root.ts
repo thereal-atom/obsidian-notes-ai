@@ -1,12 +1,12 @@
-import { conversationsRouter } from "~/server/api/routers/conversations";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
-import { notesRouter } from "./routers/notes";
-import { vaultsRouter } from "./routers/vaults";
+import { vaultsRouter } from "./routes/vaults";
+import { notesRouter } from "./routes/notes";
+import { conversationsRouter } from "./routes/conversations/router";
 
 export const appRouter = createTRPCRouter({
+    vaults: vaultsRouter,
     conversations: conversationsRouter,
     notes: notesRouter,
-    vaults: vaultsRouter,
 });
 
 export type AppRouter = typeof appRouter;
