@@ -111,6 +111,11 @@ export const notesRouter = createTRPCRouter({
                 throw new Error("error inserting notes");
             };
 
-            return updatedNotes;
+            return updatedNotes.map(note => {
+                return {
+                    ...note,
+                    createdAt: new Date(note.createdAt),
+                };
+            });
         })
 })

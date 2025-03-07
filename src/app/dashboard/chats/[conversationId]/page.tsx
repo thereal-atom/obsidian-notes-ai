@@ -121,6 +121,7 @@ export default function ChatPage() {
             setPrompt(params.data.prompt);
             void complete(params.data.prompt);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams]);
 
     if (isLoading) return <div>Loading...</div>;

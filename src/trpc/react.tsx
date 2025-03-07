@@ -1,7 +1,7 @@
 "use client";
 
 import { QueryClientProvider, type QueryClient } from "@tanstack/react-query";
-import { loggerLink, splitLink, unstable_httpBatchStreamLink, unstable_httpSubscriptionLink, wsLink } from "@trpc/client";
+import { loggerLink, splitLink, unstable_httpBatchStreamLink, unstable_httpSubscriptionLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import { useState } from "react";
