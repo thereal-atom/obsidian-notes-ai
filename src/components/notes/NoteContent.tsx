@@ -6,7 +6,7 @@ import remarkGfm from "remark-gfm";
 import { useEffect, useState } from "react";
 import { useDashboardStore } from "~/store/dashboard-store";
 
-export default function NotePageClient({
+export default function NoteContent({
     note,
 }: {
     note: Note;

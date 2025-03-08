@@ -10,7 +10,7 @@ export default function ObsidianFileBadge({
 }) {
     return (
         <Link
-            className="flex flex-row items-center mr-2 mb-2 pr-3 pl-2 py-2 bg-[#0F0F0F] rounded-md"
+            className="flex flex-row items-center w-fit h-8 mr-2 mb-2 pr-3 pl-2 py-2 bg-[#0F0F0F] rounded-md"
             href={noteId ? `/dashboard/notes/${noteId}` : "/dashboard/notes"}
         >
             <Image

@@ -1,10 +1,29 @@
-/**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
- * for Docker builds.
- */
+
 import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+    headers: async () => {
+        return [
+            {
+                source: "/api/obsidian/sync-notes",
+                headers: [
+                    {
+                        key: "Access-Control-Allow-Origin",
+                        value: "app://obsidian.md",
+                    },
+                    {
+                        key: "Access-Control-Allow-Methods",
+                        value: "POST, OPTIONS",
+                    },
+                    {
+                        key: "Access-Control-Allow-Headers",
+                        value: "Content-Type, Authorization",
+                    }
+                ],
+            },
+        ];
+    },
+};
 
 export default config;

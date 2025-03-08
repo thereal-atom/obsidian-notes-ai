@@ -16,7 +16,9 @@ export default function DashboardSidebar({ user }: {
     const vaults = useDashboardStore(state => state.vaults);
     const activeVault = useDashboardStore(state => state.activeVault);
 
-    if (!conversations || !notes || !vaults) return <div>Loading...</div>;
+    if (!conversations || !notes || !vaults) {
+        return <div className="flex flex-col h-full p-6">loading...</div>;
+    }
 
     return (
         <div className="w-[300px] min-w-[300px] h-screen max-h-screen border-r border-[#c3c3ff33]">

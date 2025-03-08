@@ -5,9 +5,10 @@ import { PrismaClient } from "@prisma/client";
 import { googleEmbeddingModel, googleGeminiModel } from "../gemini";
 import { createClient } from "~/utils/supabase/server";
 
+export const prisma = new PrismaClient();
+
 export const createTRPCContext = async (opts: { headers: Headers }) => {
     const supabase = await createClient();
-    const prisma = new PrismaClient();
 
     const { data: { user } } = await supabase.auth.getUser();
 

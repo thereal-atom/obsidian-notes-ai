@@ -4,7 +4,6 @@ import { z } from "zod";
 export const env = createEnv({
     server: {
         NODE_ENV: z.enum(["development", "test", "production"]),
-        SUPABASE_SERVICE_ROLE_KEY: z.string(),
         GEMINI_API_KEY: z.string(),
     },
     client: {
@@ -14,7 +13,6 @@ export const env = createEnv({
     runtimeEnv: {
         NODE_ENV: process.env.NODE_ENV,
         GEMINI_API_KEY: process.env.GEMINI_API_KEY,
-        SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
         NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
         NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     },

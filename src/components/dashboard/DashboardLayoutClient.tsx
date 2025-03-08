@@ -2,11 +2,10 @@
 
 import type { Vault } from "~/server/supabase";
 import type { User } from "@supabase/supabase-js";
-import ChatsLayoutClient from "./ChatsLayoutClient";
-import DashboardSidebar from "./DashboardSidebar";
 import { useEffect } from "react";
-import { useDashboardStore } from "~/store/dashboard-store";
 import { api } from "~/trpc/react";
+import { useDashboardStore } from "~/store/dashboard-store";
+import DashboardSidebar from "./DashboardSidebar";
 
 export default function DashboardLayoutClient({
     vaults,
@@ -15,11 +14,12 @@ export default function DashboardLayoutClient({
 }: {
     vaults: Vault[];
     children: React.ReactNode;
-    user: User,
+    user: User;
 }) {
     const setActiveVault = useDashboardStore(state => state.setActiveVault);
     const setConversations = useDashboardStore(state => state.setConversations);
     const setNotes = useDashboardStore(state => state.setNotes);
+    const setVaults = useDashboardStore(state => state.setVaults);
 
     const activeVault = useDashboardStore(state => state.activeVault);
     const activeVaultId = activeVault?.id ?? "";
@@ -31,27 +31,27 @@ export default function DashboardLayoutClient({
         { vaultId: activeVaultId },
         { enabled: !!activeVaultId }
     );
+
     const notesQuery = api.notes.getAll.useQuery(
         { vaultId: activeVaultId },
         { enabled: !!activeVaultId }
     );
 
     useEffect(() => {
+        if (vaults.length === 0) return;
+
         const storedActiveVaultId = localStorage.getItem("activeVaultId");
         const storedVault = vaults.find(vault => vault.id === storedActiveVaultId);
 
         if (storedVault) {
             setActiveVault(storedVault);
         } else {
-            const firstVault = vaults[0];
-            if (!firstVault) return;
-
+            const firstVault = vaults[0]!;
             setActiveVault(firstVault);
             localStorage.setItem("activeVaultId", firstVault.id);
         }
     }, [vaults, setActiveVault]);
 
-    // Update conversations and notes when query data changes
     useEffect(() => {
         if (conversationsQuery.data) {
             setConversations(conversationsQuery.data);
@@ -65,27 +65,24 @@ export default function DashboardLayoutClient({
     }, [notesQuery.data, setNotes]);
 
     useEffect(() => {
+        setVaults(vaults);
+    }, [vaults, setVaults]);
+
+    useEffect(() => {
         if (activeVaultId) {
             void conversationsQuery.refetch();
             void notesQuery.refetch();
         }
-    });
+    }, [activeVaultId]);
 
-    if (!conversations || !notes || conversationsQuery.isLoading || notesQuery.isLoading) {
-        return <div>Loading...</div>;
+    const isLoading = !conversations || !notes || conversationsQuery.isLoading || notesQuery.isLoading;
+    if (isLoading) {
+        return <div className="flex items-center justify-center h-screen">Loading...</div>;
     }
-
-    if (!conversations || !notes) return <div>Loading...</div>;
 
     return (
         <div className="flex flex-row justify-center w-screen h-screen overflow-hidden bg-primary font-[family-name:var(--font-geist-sans)]">
-            <ChatsLayoutClient
-                conversations={conversations}
-                notes={notes}
-                vaults={vaults}
-            >
-                <DashboardSidebar user={user} />
-            </ChatsLayoutClient>
+            <DashboardSidebar user={user} />
             <div className="w-full h-full">
                 {children}
             </div>

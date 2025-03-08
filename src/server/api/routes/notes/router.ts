@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { newId } from "~/utils/id";
@@ -19,7 +20,10 @@ export const notesRouter = createTRPCRouter({
             });
 
             if (!note) {
-                throw new Error("Note not found");
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "Note not found",
+                });
             }
 
             return note;

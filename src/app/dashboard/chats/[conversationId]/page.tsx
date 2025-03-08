@@ -11,12 +11,14 @@ import { newId } from "~/utils/id";
 import ObsidianFileBadge from "~/components/ObsidianFileBadge";
 import { useCompletion } from "@ai-sdk/react";
 import { z } from "zod";
-import ConversationMessageForm from "~/components/ConversationMessageForm";
+import ConversationMessageForm from "~/components/chats/ConversationMessageForm";
+import { useDashboardStore } from "~/store/dashboard-store";
 
 export default function ChatPage() {
     const { conversationId } = useParams<{ conversationId: string }>();
     const searchParams = useSearchParams();
     const router = useRouter();
+    const notes = useDashboardStore(state => state.notes);
 
     const [prompt, setPrompt] = useState("");
     const [messages, setMessages] = useState<(ConversationMessage & {
@@ -70,7 +72,7 @@ export default function ChatPage() {
                     content: conversation.initialUserPrompt,
                     role: "user",
                     conversationId: conversation.id,
-                    createdAt: new Date(),
+                    createdAt: conversation.createdAt,
                 },
                 ...conversation.messages,
             ]);
@@ -85,6 +87,7 @@ export default function ChatPage() {
 
     useEffect(() => {
         if (wasMessageRecentlySent && !isCompletionLoading) {
+            // will likely save message multiple times.
             saveMessageMutate(
                 {
                     conversationId,
@@ -124,23 +127,43 @@ export default function ChatPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams]);
 
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error: {error?.message}</div>;
+    if (isLoading) return <div className="flex flex-col justify-center items-center w-full h-full">Loading...</div>;
+    if (isError) return <div className="flex flex-col justify-center items-center w-full h-full">Error: {error?.message}</div>;
 
     return (
         <div className="flex flex-col justify-center items-center w-full h-full">
             <div className="flex flex-col items-center flex-1 overflow-y-auto w-full">
                 <div className="flex flex-col w-[75%] h-full pt-16">
                     <div className="mb-4">
-                        {messages.map((message, index) => (
+                        {messages.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime()).map((message, index) => (
                             <div
                                 className={`flex flex-row ${message.role === "user" ? "justify-end" : "justify-start"} w-full mb-8`}
                                 key={index}
                             >
-                                <div className={`flex flex-col p-4 rounded-md ${message.role === "user" ? "bg-[#c3c3ff11] border border-[#c3c3ff33]" : ""}`}>
+                                <div className={`flex flex-col p-4 rounded-md ${message.role === "user" ? "bg-[#c3c3ff11] border border-[#c3c3ff33] w-2/3" : ""}`}>
                                     <div className={message.role === "user" ? "font-semibold" : "markdown"}>
-                                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                            {message.content}
+                                        <ReactMarkdown
+                                            remarkPlugins={[remarkGfm]}
+                                            components={{
+                                                a: (props) => {
+                                                    const isNoteLink = typeof props.children === "string" && props.href?.endsWith("?isNoteLink=true");
+                                                    const noteName = props.href?.split("/").pop()?.replace("?isNoteLink=true", "") ?? "";
+                                                    const note = notes?.find(note => note.name === `${decodeURI(noteName)}.md`);
+                                                    const href = note ? `/dashboard/notes/${note.id}` : props.href;
+
+                                                    return <a {...props} href={href}>
+                                                        {isNoteLink && typeof props.children === "string"
+                                                            ? <span className="h-6 font-mono rounded-md">
+                                                                {props.children.toString()}.md
+                                                            </span>
+                                                            : props.children}
+                                                    </a>;
+                                                }
+                                            }}
+                                        >
+                                            {message.content.replace(/\[\[(.+?)\.md\]\]/g, (match, noteName) => {
+                                                return `[${noteName}](${window.location.origin}/dashboard/notes/${encodeURIComponent((noteName as string).toString())}?isNoteLink=true)`;
+                                            })}
                                         </ReactMarkdown>
                                     </div>
                                     {message.role === "llm" && message.relevantNotes && message.relevantNotes.length > 0 && (
@@ -153,7 +176,6 @@ export default function ChatPage() {
                                                 />
                                             ))}
                                         </div>
-
                                     )}
                                 </div>
                             </div>

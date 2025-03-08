@@ -5,6 +5,7 @@ import { z } from "zod";
 import { protectedProcedure } from "../../trpc";
 import { newId } from "~/utils/id";
 import { systemPrompt } from "~/server/gemini";
+import { TRPCError } from "@trpc/server";
 
 export const createConversationProcedure = protectedProcedure
     .input(z.object({
@@ -58,7 +59,10 @@ export const getConversationByIdProcedure = protectedProcedure
         });
 
         if (!conversation) {
-            throw new Error("conversation not found");
+            throw new TRPCError({
+                code: "NOT_FOUND",
+                message: "Conversation not found",
+            });
         };
 
         const conversationMessages = conversation.messages
