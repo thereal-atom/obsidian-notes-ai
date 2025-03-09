@@ -1,10 +1,9 @@
 "use client";
 
 import type { Note } from "~/server/supabase";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { useEffect, useState } from "react";
 import { useDashboardStore } from "~/store/dashboard-store";
+import Markdown from "../Markdown";
 
 export default function NoteContent({
     note,
@@ -41,11 +40,12 @@ export default function NoteContent({
         <div className="flex flex-col h-full p-16 overflow-y-scroll">
             <h1 className="font-bold text-3xl">{note.name}</h1>
             <div className="flex flex-col markdown">
-                <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
+                <Markdown
+                    parseNoteLinks={true}
+                    notes={notes ?? undefined}
                 >
                     {contentWithPlaceholders}
-                </ReactMarkdown>
+                </Markdown>
             </div>
         </div>
     );

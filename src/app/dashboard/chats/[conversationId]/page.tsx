@@ -4,8 +4,6 @@ import type { ConversationMessage } from "~/server/supabase";
 import type { notes } from "@prisma/client";
 import { api } from "~/trpc/react";
 import { useState, useEffect, useRef } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { newId } from "~/utils/id";
 import ObsidianFileBadge from "~/components/ObsidianFileBadge";
@@ -13,6 +11,7 @@ import { useCompletion } from "@ai-sdk/react";
 import { z } from "zod";
 import ConversationMessageForm from "~/components/chats/ConversationMessageForm";
 import { useDashboardStore } from "~/store/dashboard-store";
+import Markdown from "~/components/Markdown";
 
 export default function ChatPage() {
     const { conversationId } = useParams<{ conversationId: string }>();
@@ -142,29 +141,12 @@ export default function ChatPage() {
                             >
                                 <div className={`flex flex-col p-4 rounded-md ${message.role === "user" ? "bg-[#c3c3ff11] border border-[#c3c3ff33] w-2/3" : ""}`}>
                                     <div className={message.role === "user" ? "font-semibold" : "markdown"}>
-                                        <ReactMarkdown
-                                            remarkPlugins={[remarkGfm]}
-                                            components={{
-                                                a: (props) => {
-                                                    const isNoteLink = typeof props.children === "string" && props.href?.endsWith("?isNoteLink=true");
-                                                    const noteName = props.href?.split("/").pop()?.replace("?isNoteLink=true", "") ?? "";
-                                                    const note = notes?.find(note => note.name === `${decodeURI(noteName)}.md`);
-                                                    const href = note ? `/dashboard/notes/${note.id}` : props.href;
-
-                                                    return <a {...props} href={href}>
-                                                        {isNoteLink && typeof props.children === "string"
-                                                            ? <span className="h-6 font-mono rounded-md">
-                                                                {props.children.toString()}.md
-                                                            </span>
-                                                            : props.children}
-                                                    </a>;
-                                                }
-                                            }}
+                                        <Markdown
+                                            parseNoteLinks={true}
+                                            notes={notes ?? undefined}
                                         >
-                                            {message.content.replace(/\[\[(.+?)\.md\]\]/g, (match, noteName) => {
-                                                return `[${noteName}](${window.location.origin}/dashboard/notes/${encodeURIComponent((noteName as string).toString())}?isNoteLink=true)`;
-                                            })}
-                                        </ReactMarkdown>
+                                            {message.content}
+                                        </Markdown>
                                     </div>
                                     {message.role === "llm" && message.relevantNotes && message.relevantNotes.length > 0 && (
                                         <div className="flex flex-wrap mt-4">
@@ -187,9 +169,12 @@ export default function ChatPage() {
                             >
                                 <div className="flex flex-col p-4 rounded-md">
                                     <div className="markdown">
-                                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                        <Markdown
+                                            parseNoteLinks={true}
+                                            notes={notes ?? undefined}
+                                        >
                                             {completion}
-                                        </ReactMarkdown>
+                                        </Markdown>
                                     </div>
                                 </div>
                             </div>
