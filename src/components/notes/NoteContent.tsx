@@ -27,7 +27,7 @@ export default function NoteContent({
                 if (note) {
                     content = content.replace(
                         `[[${name}]]`,
-                        `[${name}.md](/dashboard/notes/${note?.id})`
+                        `[${name}](/dashboard/notes/${note?.id}?isNoteLink=true)`
                     );
                 }
             });
@@ -37,7 +37,7 @@ export default function NoteContent({
     }, [note, notes]);
 
     return (
-        <div className="flex flex-col h-full p-16 overflow-y-scroll">
+        <div className="relative flex flex-col h-full p-16 overflow-y-scroll">
             <h1 className="font-bold text-3xl">{note.name}</h1>
             <div className="flex flex-col markdown">
                 <Markdown
@@ -47,6 +47,11 @@ export default function NoteContent({
                     {contentWithPlaceholders}
                 </Markdown>
             </div>
+            <button
+                className="fixed right-16 bottom-16 px-4 py-2 bg-gradient-to-r from-accent via-secondary to-blue-500 text-sm font-semibold rounded-md"
+            >
+                Summarize This Note
+            </button>
         </div>
     );
 }
