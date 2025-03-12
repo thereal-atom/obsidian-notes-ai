@@ -29,7 +29,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
     setActiveVault: (vault) => set({ activeVault: vault }),
 
     addConversation: (conversation) => set((state) => ({
-        conversations: state.conversations ? [...state.conversations, conversation] : [conversation],
+        conversations: (state.conversations ? [...state.conversations, conversation] : [conversation]).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()),
     })),
     addNote: (note) => set((state) => ({
         notes: state.notes ? [...state.notes, note] : [note],

@@ -24,6 +24,7 @@ export default function ChatPage() {
         relevantNotes?: notes[];
     })[]>([]);
     const [wasMessageRecentlySent, setWasMessageRecentlySent] = useState(false);
+    const [startedCompletion, setStartedCompletion] = useState(false);
 
     const lastMessageRef = useRef<HTMLDivElement>(null);
 
@@ -85,8 +86,11 @@ export default function ChatPage() {
     }, [messages, completion]);
 
     useEffect(() => {
+        if (startedCompletion) return;
+
         if (wasMessageRecentlySent && !isCompletionLoading) {
-            // will likely save message multiple times.
+            setStartedCompletion(true);
+
             saveMessageMutate(
                 {
                     conversationId,
@@ -102,7 +106,7 @@ export default function ChatPage() {
                 },
             );
         };
-    }, [wasMessageRecentlySent, isCompletionLoading, completion, saveMessageMutate, conversationId]);
+    }, [startedCompletion, setStartedCompletion, wasMessageRecentlySent, isCompletionLoading, completion, saveMessageMutate, conversationId]);
 
     useEffect(() => {
         const searchParamsData = Object.fromEntries(searchParams);

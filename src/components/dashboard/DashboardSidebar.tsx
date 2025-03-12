@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useDashboardStore } from "~/store/dashboard-store";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function DashboardSidebar({ user }: {
     user: User,
@@ -15,6 +16,8 @@ export default function DashboardSidebar({ user }: {
     const notes = useDashboardStore(state => state.notes);
     const vaults = useDashboardStore(state => state.vaults);
     const activeVault = useDashboardStore(state => state.activeVault);
+
+    const [isNotesSectionExpanded, setIsNotesSectionExpanded] = useState(false);
 
     if (!conversations || !notes || !vaults) {
         return <div className="flex flex-col h-full p-6">loading...</div>;
@@ -43,15 +46,23 @@ export default function DashboardSidebar({ user }: {
                             ))}
                         </div>
                     </div>
-                    <div className="flex flex-col h-full mt-8">
-                        <Link
-                            className="text-xl font-bold"
-                            href="/dashboard/notes"
-                        >
-                            Notes
-                        </Link>
+                    <div className="flex flex-col mt-8">
+                        <div className="flex flex-row">
+                            {/* <button
+                                className="font-bold"
+                                onClick={() => setIsNotesSectionExpanded(!isNotesSectionExpanded)}
+                            >
+                                {isNotesSectionExpanded ? "▼" : "►"}
+                            </button> */}
+                            <Link
+                                className="text-xl font-bold"
+                                href="/dashboard/notes"
+                            >
+                                Notes
+                            </Link>
+                        </div>
                         <div className="flex flex-col mt-6">
-                            {notes.map((note, index) => (
+                            {isNotesSectionExpanded && notes.map((note, index) => (
                                 <SidebarLink
                                     href={`/dashboard/notes/${note.id}`}
                                     isActive={pathname.includes(`/dashboard/notes/${note.id}`)}
@@ -62,6 +73,12 @@ export default function DashboardSidebar({ user }: {
                             ))}
                         </div>
                     </div>
+                    <Link
+                        className="text-xl font-bold"
+                        href="/dashboard/summarize"
+                    >
+                        Summarize
+                    </Link>
                 </div>
                 <div className="flex flex-row items-center w-full p-4 border-t border-[#c3c3ff33]">
                     <Link
