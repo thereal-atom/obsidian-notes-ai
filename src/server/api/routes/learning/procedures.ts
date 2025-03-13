@@ -18,7 +18,7 @@ const formatTimestamp = (seconds: number): string => {
     const minutesStr = minutes.toString().padStart(2, "0");
     const secondsStr = remainingSeconds.toString().padStart(2, "0");
 
-    return `[${hours > 1 ? `${hoursStr}:` : ""}${minutesStr}:${secondsStr}]`;
+    return `[${hoursStr}:${minutesStr}:${secondsStr}]`;
 };
 
 export const summarizeYoutubeVideo = protectedProcedure
@@ -63,7 +63,7 @@ export const summarizeYoutubeVideo = protectedProcedure
                 "First include a concise summary of the overall video, or an introduction, in 1-2 paragraphs." +
                 "Then, break down the video into sections, and write a 2-3 paragraph summary for each section. Make sure to highlight the key points." +
                 "Finally, include a 1-2 paragraph summary." +
-                "For each point, include the timestamp of where in the video you got that point from. If it is a quote taken directly from the video, use speech marks around it." +
+                "For each point, include the timestamp of where in the video you got that point from in the format: [hh:mm:ss]. If it is a quote taken directly from the video, use speech marks around it." +
                 "In terms of formatting, make teach title a heading 1." +
                 "Do not include any introductory phrases like 'Here's a breakdown' or references to following instructions—just provide the summary directly." +
                 `\n\n${fullTranscriptString}`,
@@ -102,8 +102,6 @@ export const summarizeYoutubeVideo = protectedProcedure
             author_url: z.string().url(),
             thumbnail_url: z.string().url(),
         }).safeParse(data.metadata).data;
-
-        console.log(videoMetadata);
 
         return {
             summary: summaryText,

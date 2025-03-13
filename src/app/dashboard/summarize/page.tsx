@@ -78,7 +78,8 @@ export default function SummarizePage() {
                         {getSummaryQuery.isError && <p>Error: {getSummaryQuery.error.message}</p>}
                         {getSummaryQuery.data && <div>
                             <YouTubeEmbed videoId={getSummaryQuery.data.videoMetadata.id} />
-                            <Markdown>
+                            <h2 className="font-bold text-2xl my-2">{getSummaryQuery.data.videoMetadata.title}</h2>
+                            <Markdown videoId={getSummaryQuery.data.videoMetadata.id}>
                                 {getSummaryQuery.data.summary}
                             </Markdown>
                             <div className="flex flex-wrap mt-4">

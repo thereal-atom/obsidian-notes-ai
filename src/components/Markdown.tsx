@@ -3,13 +3,13 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-const replaceTimestampsWithLinks = (text: string): string => {
-    const timestampRegex = /\((\d{2}):(\d{2}):(\d{2})\)/g;
+const replaceTimestampsWithLinks = (markdownString: string, videoId: string): string => {
+    const timestampRegex = /\[(\d{2}):(\d{2}):(\d{2})\]/g;
 
-    return text.replace(timestampRegex, (match, hours: string, minutes: string, seconds: string) => {
+    return markdownString.replace(timestampRegex, (match, hours: string, minutes: string, seconds: string) => {
         const totalSeconds = parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(seconds);
 
-        return `[${match.replace("(", "[").replace(")", "]")}](https://youtube.com/watch?v=VIDEO_ID&t=${totalSeconds}s)`;
+        return `[${match}](https://youtube.com/watch?v=${videoId}&t=${totalSeconds}s)`;
     });
 };
 
@@ -22,10 +22,12 @@ const replaceNotelinks = (markdownString: string) => {
 export default function Markdown({
     parseNoteLinks = false,
     notes,
+    videoId,
     children,
 }: {
     parseNoteLinks?: boolean;
     notes?: Note[];
+    videoId?: string;
     children: string;
 }) {
     return (
@@ -34,14 +36,14 @@ export default function Markdown({
                 remarkPlugins={[remarkGfm]}
                 components={{
                     a: (props) => {
-                        if (!parseNoteLinks) return <a {...props}>{props.children}</a>;
+                        if (!parseNoteLinks) return <a {...props} target="_blank">{props.children}</a>;
 
                         const isNoteLink = typeof props.children === "string" && props.href?.endsWith("?isNoteLink=true");
                         const noteName = props.href?.split("/").pop()?.replace("?isNoteLink=true", "") ?? "";
                         const note = notes?.find(note => note.name === `${decodeURI(noteName)}.md`);
                         const href = note ? `/dashboard/notes/${note.id}` : props.href;
 
-                        return <a {...props} href={href}>
+                        return <a {...props} href={href} target="_blank">
                             {isNoteLink && typeof props.children === "string"
                                 ? <span className="h-6 font-mono rounded-md">
                                     {props.children.toString()}.md
@@ -51,7 +53,7 @@ export default function Markdown({
                     }
                 }}
             >
-                {replaceTimestampsWithLinks(replaceNotelinks(children))}
+                {replaceTimestampsWithLinks(replaceNotelinks(children), videoId ?? "")}
             </ReactMarkdown>
         </div>
     );
