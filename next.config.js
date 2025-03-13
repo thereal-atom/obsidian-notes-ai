@@ -24,6 +24,9 @@ const config = {
             },
         ];
     },
+    images: {
+        domains: ["i.ytimg.com"],
+    },
 };
 
 export default config;
