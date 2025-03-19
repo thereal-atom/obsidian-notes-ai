@@ -1,5 +1,5 @@
 import { signout } from "./actions";
-import { createClient } from "~/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function AccountPage() {
     const supabase = await createClient();

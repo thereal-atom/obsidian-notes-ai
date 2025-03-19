@@ -1,17 +1,17 @@
 "use client"
 
-import type { ConversationMessage } from "~/server/supabase";
+import type { ConversationMessage } from "@/server/supabase";
 import type { notes } from "@prisma/client";
-import { api } from "~/trpc/react";
+import { api } from "@/trpc/react";
 import { useState, useEffect, useRef } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
-import { newId } from "~/utils/id";
-import ObsidianFileBadge from "~/components/ObsidianFileBadge";
+import { newId } from "@/utils/id";
+import ObsidianFileBadge from "@/components/ObsidianFileBadge";
 import { useCompletion } from "@ai-sdk/react";
 import { z } from "zod";
-import ConversationMessageForm from "~/components/chats/ConversationMessageForm";
-import { useDashboardStore } from "~/store/dashboard-store";
-import Markdown from "~/components/Markdown";
+import ConversationMessageForm from "@/components/chats/ConversationMessageForm";
+import { useDashboardStore } from "@/stores/dashboard-store";
+import Markdown from "@/components/Markdown";
 
 export default function ChatPage() {
     const { conversationId } = useParams<{ conversationId: string }>();

@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useRef } from "react";
-import ObsidianFileBadge from "~/components/ObsidianFileBadge";
-import { useDashboardStore } from "~/store/dashboard-store";
-import { api } from "~/trpc/react";
+import ObsidianFileBadge from "@/components/ObsidianFileBadge";
+import { useDashboardStore } from "@/stores/dashboard-store";
+import { api } from "@/trpc/react";
 
 export default function NotesHome() {
     const [selectedFiles, setSelectedFiles] = useState<{

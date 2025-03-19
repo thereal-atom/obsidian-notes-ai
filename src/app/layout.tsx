@@ -1,9 +1,9 @@
-import "~/styles/globals.css";
+import "@/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
-import { TRPCReactProvider } from "~/trpc/react";
+import { TRPCReactProvider } from "@/trpc/react";
 
 export const metadata: Metadata = {
     title: "Obsidian Notes AI",
@@ -17,7 +17,7 @@ export default function RootLayout({
     const isDevelopment = process.env.NODE_ENV === "development";
 
     return (
-        <html lang="en" className={`${GeistSans.variable} bg-[#15131C] text-white`}>
+        <html lang="en" className={`${GeistSans.variable} bg-primary text-white`}>
             <body>
                 {isDevelopment ? (
                     <TRPCReactProvider>{children}</TRPCReactProvider>

@@ -1,10 +1,10 @@
 import { google } from "@ai-sdk/google";
 import { streamText } from "ai";
 import { z } from "zod";
-import { prisma } from "~/server/api/trpc";
-import { googleEmbeddingModel } from "~/server/gemini";
-import { generateEmbeddings } from "~/server/gemini/utils";
-import { createClient } from "~/utils/supabase/server";
+import { prisma } from "@/server/api/trpc";
+import { googleEmbeddingModel } from "@/server/gemini";
+import { generateEmbeddings } from "@/server/gemini/utils";
+import { createClient } from "@/utils/supabase/server";
 
 export const maxDuration = 30;
 

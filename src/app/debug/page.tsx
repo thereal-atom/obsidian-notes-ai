@@ -1,4 +1,4 @@
-import { systemPrompt } from "~/server/gemini";
+import { systemPrompt } from "@/server/gemini";
 
 export default function DebugPage() {
     return <div className="p-16">

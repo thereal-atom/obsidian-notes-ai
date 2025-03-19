@@ -9,7 +9,7 @@ export default {
                 sans: ["var(--font-geist-sans)", ...fontFamily.sans],
             },
             colors: {
-                primary: "#15131C",
+                primary: "#0d0b12",
                 secondary: "#C3C3FF",
                 accent: "#635BFF"
             }

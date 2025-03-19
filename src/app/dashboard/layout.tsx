@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
-import DashboardLayoutClient from "~/components/dashboard/DashboardLayoutClient";
-import { api } from "~/trpc/server";
-import { createClient } from "~/utils/supabase/server";
+import DashboardLayoutClient from "@/components/dashboard/DashboardLayoutClient";
+import { api } from "@/trpc/server";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function ChatsLayout({
     children,

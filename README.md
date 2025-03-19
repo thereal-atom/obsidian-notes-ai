@@ -8,7 +8,7 @@ built with:
 - TypeScript
 - Zod
 - tRPC
-- Supabase + supabase-js
+- Supabase + Prisma
 - Google Generative AI (Gemini and Text Embedding)
 
 [<img src="https://github.com/thereal-atom/obsidian-notes-ai/blob/main/public/screenshots/example.png">](https://oscarfal.vercel.app)

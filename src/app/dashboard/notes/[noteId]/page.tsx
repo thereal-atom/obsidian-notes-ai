@@ -1,5 +1,5 @@
-import { api } from "~/trpc/server";
-import NoteContent from "~/components/notes/NoteContent";
+import { api } from "@/trpc/server";
+import NoteContent from "@/components/notes/NoteContent";
 import { TRPCError } from "@trpc/server";
 
 export default async function NotePage({

@@ -1,10 +1,10 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useDashboardStore } from "~/store/dashboard-store";
+import { useDashboardStore } from "@/stores//dashboard-store";
 import Link from "next/link";
-import { api } from "~/trpc/react";
-import ConversationMessageForm from "~/components/chats/ConversationMessageForm";
+import { api } from "@/trpc/react";
+import ConversationMessageForm from "@/components/chats/ConversationMessageForm";
 import { useState } from "react";
 
 export default function ChatsHome() {

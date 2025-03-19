@@ -1,0 +1,4775 @@
+{
+  "transcript": [
+    {
+      "text": "hi everyone my name is samson today i'm",
+      "start": 0.16,
+      "duration": 3.759
+    },
+    {
+      "text": "going to be building a neural network",
+      "start": 2.24,
+      "duration": 4
+    },
+    {
+      "text": "from scratch so not using tensorflow not",
+      "start": 3.919,
+      "duration": 4.561
+    },
+    {
+      "text": "using keras just numpy with equations",
+      "start": 6.24,
+      "duration": 3.439
+    },
+    {
+      "text": "linear algebra",
+      "start": 8.48,
+      "duration": 3.68
+    },
+    {
+      "text": "um from the ground up anyone interested",
+      "start": 9.679,
+      "duration": 4.161
+    },
+    {
+      "text": "in artificial intelligence or machine",
+      "start": 12.16,
+      "duration": 2.08
+    },
+    {
+      "text": "learning",
+      "start": 13.84,
+      "duration": 1.759
+    },
+    {
+      "text": "is probably very familiar with neural",
+      "start": 14.24,
+      "duration": 2.799
+    },
+    {
+      "text": "networks at a high level right you have",
+      "start": 15.599,
+      "duration": 2.401
+    },
+    {
+      "text": "lots of layers",
+      "start": 17.039,
+      "duration": 2.481
+    },
+    {
+      "text": "lots of nodes you you connect them all",
+      "start": 18,
+      "duration": 2.64
+    },
+    {
+      "text": "together you can have some really",
+      "start": 19.52,
+      "duration": 2.72
+    },
+    {
+      "text": "complex models from it",
+      "start": 20.64,
+      "duration": 3.28
+    },
+    {
+      "text": "that make some some cool predictions",
+      "start": 22.24,
+      "duration": 3.119
+    },
+    {
+      "text": "right i find that a lot of that kind of",
+      "start": 23.92,
+      "duration": 2.64
+    },
+    {
+      "text": "learning right when you're just looking",
+      "start": 25.359,
+      "duration": 2.561
+    },
+    {
+      "text": "at stuff from the high level",
+      "start": 26.56,
+      "duration": 3.6
+    },
+    {
+      "text": "is is kind of wishy-washy and even if",
+      "start": 27.92,
+      "duration": 4.08
+    },
+    {
+      "text": "you go into tensorflow and",
+      "start": 30.16,
+      "duration": 3.919
+    },
+    {
+      "text": "implement these networks it's still a",
+      "start": 32,
+      "duration": 3.68
+    },
+    {
+      "text": "little unclear like how they work you",
+      "start": 34.079,
+      "duration": 2.64
+    },
+    {
+      "text": "know at least for me",
+      "start": 35.68,
+      "duration": 2.719
+    },
+    {
+      "text": "i feel like i learn a lot better when i",
+      "start": 36.719,
+      "duration": 3.761
+    },
+    {
+      "text": "can get to the equations when i can",
+      "start": 38.399,
+      "duration": 4.561
+    },
+    {
+      "text": "really build from the ground up and you",
+      "start": 40.48,
+      "duration": 3.52
+    },
+    {
+      "text": "really can't get too much",
+      "start": 42.96,
+      "duration": 2.8
+    },
+    {
+      "text": "closer than implementing a neural",
+      "start": 44,
+      "duration": 3.2
+    },
+    {
+      "text": "network from scratch",
+      "start": 45.76,
+      "duration": 3.119
+    },
+    {
+      "text": "so that's what we're going to be doing",
+      "start": 47.2,
+      "duration": 3.039
+    },
+    {
+      "text": "today so",
+      "start": 48.879,
+      "duration": 4.401
+    },
+    {
+      "text": "let's dive right into it",
+      "start": 50.239,
+      "duration": 3.041
+    },
+    {
+      "text": "the problem that we'll be tackling is",
+      "start": 53.68,
+      "duration": 3.92
+    },
+    {
+      "text": "digit classification we'll be using a",
+      "start": 55.92,
+      "duration": 2.479
+    },
+    {
+      "text": "famous",
+      "start": 57.6,
+      "duration": 4
+    },
+    {
+      "text": "data set called the the mnist data set",
+      "start": 58.399,
+      "duration": 5.201
+    },
+    {
+      "text": "so what the nist data set is is it's",
+      "start": 61.6,
+      "duration": 4.32
+    },
+    {
+      "text": "it's tens of thousands of these",
+      "start": 63.6,
+      "duration": 5.04
+    },
+    {
+      "text": "28 by 28 so pretty low res grayscale",
+      "start": 65.92,
+      "duration": 3.36
+    },
+    {
+      "text": "images",
+      "start": 68.64,
+      "duration": 3.44
+    },
+    {
+      "text": "of handwritten digits we are going to be",
+      "start": 69.28,
+      "duration": 4.159
+    },
+    {
+      "text": "building a neural network",
+      "start": 72.08,
+      "duration": 3.039
+    },
+    {
+      "text": "that classifies images of handwritten",
+      "start": 73.439,
+      "duration": 4
+    },
+    {
+      "text": "digits and tells you what digit",
+      "start": 75.119,
+      "duration": 5.761
+    },
+    {
+      "text": "is is written in that image",
+      "start": 77.439,
+      "duration": 3.441
+    },
+    {
+      "text": "this is an overview of what everything",
+      "start": 81.68,
+      "duration": 2.72
+    },
+    {
+      "text": "is going to look like what we're going",
+      "start": 83.52,
+      "duration": 1.76
+    },
+    {
+      "text": "to implement today",
+      "start": 84.4,
+      "duration": 2.719
+    },
+    {
+      "text": "we're going to start off with 28 by 28",
+      "start": 85.28,
+      "duration": 4.799
+    },
+    {
+      "text": "pixel training images so that's 784",
+      "start": 87.119,
+      "duration": 4.161
+    },
+    {
+      "text": "pixels overall",
+      "start": 90.079,
+      "duration": 3.601
+    },
+    {
+      "text": "and each of those pixels is just a pixel",
+      "start": 91.28,
+      "duration": 3.76
+    },
+    {
+      "text": "value right it's between",
+      "start": 93.68,
+      "duration": 4.96
+    },
+    {
+      "text": "0 and 255 255 being completely white",
+      "start": 95.04,
+      "duration": 6.96
+    },
+    {
+      "text": "0 being completely black so we have m of",
+      "start": 98.64,
+      "duration": 4.4
+    },
+    {
+      "text": "these training image",
+      "start": 102,
+      "duration": 2.96
+    },
+    {
+      "text": "so we can represent it as a matrix that",
+      "start": 103.04,
+      "duration": 3.84
+    },
+    {
+      "text": "looks like this each row constitutes an",
+      "start": 104.96,
+      "duration": 2.64
+    },
+    {
+      "text": "example",
+      "start": 106.88,
+      "duration": 4.64
+    },
+    {
+      "text": "and each row is going to be 784",
+      "start": 107.6,
+      "duration": 5.6
+    },
+    {
+      "text": "columns long because each of them is",
+      "start": 111.52,
+      "duration": 3.52
+    },
+    {
+      "text": "going to correspond to one pixel in that",
+      "start": 113.2,
+      "duration": 2.559
+    },
+    {
+      "text": "image",
+      "start": 115.04,
+      "duration": 2.24
+    },
+    {
+      "text": "what we're actually going to do is",
+      "start": 115.759,
+      "duration": 3.281
+    },
+    {
+      "text": "transpose this matrix instead of each",
+      "start": 117.28,
+      "duration": 3.119
+    },
+    {
+      "text": "row being an example",
+      "start": 119.04,
+      "duration": 3.92
+    },
+    {
+      "text": "each column is an example so our first",
+      "start": 120.399,
+      "duration": 4.241
+    },
+    {
+      "text": "column is going to be our first example",
+      "start": 122.96,
+      "duration": 3.92
+    },
+    {
+      "text": "and it's going to have 784 rows",
+      "start": 124.64,
+      "duration": 3.92
+    },
+    {
+      "text": "corresponding to each pixel",
+      "start": 126.88,
+      "duration": 3.68
+    },
+    {
+      "text": "and we're going to have m columns",
+      "start": 128.56,
+      "duration": 3.039
+    },
+    {
+      "text": "corresponding to our m",
+      "start": 130.56,
+      "duration": 3.44
+    },
+    {
+      "text": "training examples our goal is to take",
+      "start": 131.599,
+      "duration": 3.121
+    },
+    {
+      "text": "this image",
+      "start": 134,
+      "duration": 2.64
+    },
+    {
+      "text": "just do a bunch of processing and then",
+      "start": 134.72,
+      "duration": 3.92
+    },
+    {
+      "text": "predict give out a prediction",
+      "start": 136.64,
+      "duration": 5.76
+    },
+    {
+      "text": "for what digit that image represents",
+      "start": 138.64,
+      "duration": 5.84
+    },
+    {
+      "text": "and how we're going to do that is with a",
+      "start": 142.4,
+      "duration": 3.28
+    },
+    {
+      "text": "neural network",
+      "start": 144.48,
+      "duration": 2.8
+    },
+    {
+      "text": "so we're going to be building a quite",
+      "start": 145.68,
+      "duration": 3.279
+    },
+    {
+      "text": "simple neural network it's only going to",
+      "start": 147.28,
+      "duration": 2.64
+    },
+    {
+      "text": "have two layers",
+      "start": 148.959,
+      "duration": 2.241
+    },
+    {
+      "text": "so the first layer in this neural",
+      "start": 149.92,
+      "duration": 3.599
+    },
+    {
+      "text": "network is just going to be 784 nodes",
+      "start": 151.2,
+      "duration": 3.759
+    },
+    {
+      "text": "this is our input layer right",
+      "start": 153.519,
+      "duration": 4.561
+    },
+    {
+      "text": "each of the 784 pixels maps to a node",
+      "start": 154.959,
+      "duration": 5.201
+    },
+    {
+      "text": "and that's our first layer our second",
+      "start": 158.08,
+      "duration": 4.08
+    },
+    {
+      "text": "layer is going to be our hidden layer",
+      "start": 160.16,
+      "duration": 3.12
+    },
+    {
+      "text": "and it's going to have",
+      "start": 162.16,
+      "duration": 3.04
+    },
+    {
+      "text": "10 units and then our third layer is",
+      "start": 163.28,
+      "duration": 4
+    },
+    {
+      "text": "going to be our output layer again with",
+      "start": 165.2,
+      "duration": 4.88
+    },
+    {
+      "text": "10 units and each corresponding to one",
+      "start": 167.28,
+      "duration": 5.28
+    },
+    {
+      "text": "digit that can be predicted",
+      "start": 170.08,
+      "duration": 4.239
+    },
+    {
+      "text": "in that intro right there i called this",
+      "start": 172.56,
+      "duration": 3.039
+    },
+    {
+      "text": "the first layer",
+      "start": 174.319,
+      "duration": 4.401
+    },
+    {
+      "text": "this the second layer and this the third",
+      "start": 175.599,
+      "duration": 3.92
+    },
+    {
+      "text": "layer",
+      "start": 178.72,
+      "duration": 2.72
+    },
+    {
+      "text": "going forward i'm actually calling this",
+      "start": 179.519,
+      "duration": 3.36
+    },
+    {
+      "text": "right here the",
+      "start": 181.44,
+      "duration": 4
+    },
+    {
+      "text": "zeroth layer this is the first layer and",
+      "start": 182.879,
+      "duration": 4.64
+    },
+    {
+      "text": "this the second layer",
+      "start": 185.44,
+      "duration": 3.519
+    },
+    {
+      "text": "and the reason for that is this layer",
+      "start": 187.519,
+      "duration": 3.201
+    },
+    {
+      "text": "right here will also be called the input",
+      "start": 188.959,
+      "duration": 3.36
+    },
+    {
+      "text": "layer there's no parameters here right",
+      "start": 190.72,
+      "duration": 2.879
+    },
+    {
+      "text": "this is not really a layer of the",
+      "start": 192.319,
+      "duration": 3.2
+    },
+    {
+      "text": "network it's just the input",
+      "start": 193.599,
+      "duration": 4.081
+    },
+    {
+      "text": "this right here is the first hidden",
+      "start": 195.519,
+      "duration": 3.44
+    },
+    {
+      "text": "layer",
+      "start": 197.68,
+      "duration": 4.32
+    },
+    {
+      "text": "and this is our second layer and also",
+      "start": 198.959,
+      "duration": 5.681
+    },
+    {
+      "text": "our output layer so yeah so i just",
+      "start": 202,
+      "duration": 4.08
+    },
+    {
+      "text": "called them first second and third",
+      "start": 204.64,
+      "duration": 4
+    },
+    {
+      "text": "but going forward we're going to be not",
+      "start": 206.08,
+      "duration": 3.28
+    },
+    {
+      "text": "using",
+      "start": 208.64,
+      "duration": 2.319
+    },
+    {
+      "text": "first second and third but rather input",
+      "start": 209.36,
+      "duration": 3.439
+    },
+    {
+      "text": "layer first hidden layer and",
+      "start": 210.959,
+      "duration": 4
+    },
+    {
+      "text": "second layer otherwise known as output",
+      "start": 212.799,
+      "duration": 3.041
+    },
+    {
+      "text": "layer",
+      "start": 214.959,
+      "duration": 3.36
+    },
+    {
+      "text": "there's three parts to to training this",
+      "start": 215.84,
+      "duration": 4.16
+    },
+    {
+      "text": "network the first part is called forward",
+      "start": 218.319,
+      "duration": 2.64
+    },
+    {
+      "text": "propagation",
+      "start": 220,
+      "duration": 2.64
+    },
+    {
+      "text": "so forward propagation is just when you",
+      "start": 220.959,
+      "duration": 3.121
+    },
+    {
+      "text": "take an image and you",
+      "start": 222.64,
+      "duration": 3.12
+    },
+    {
+      "text": "run it through this network from this",
+      "start": 224.08,
+      "duration": 4
+    },
+    {
+      "text": "network you compute what your output is",
+      "start": 225.76,
+      "duration": 3.199
+    },
+    {
+      "text": "going to be",
+      "start": 228.08,
+      "duration": 2.239
+    },
+    {
+      "text": "so that's the first part that we have to",
+      "start": 228.959,
+      "duration": 3.521
+    },
+    {
+      "text": "figure out so to start we're going to",
+      "start": 230.319,
+      "duration": 4.881
+    },
+    {
+      "text": "have this variable a0 that's just our",
+      "start": 232.48,
+      "duration": 4.24
+    },
+    {
+      "text": "input layer that's just equal to x",
+      "start": 235.2,
+      "duration": 3.2
+    },
+    {
+      "text": "there's no processing going on here",
+      "start": 236.72,
+      "duration": 4.56
+    },
+    {
+      "text": "a0 is just this first layer right here",
+      "start": 238.4,
+      "duration": 3.6
+    },
+    {
+      "text": "z1",
+      "start": 241.28,
+      "duration": 3.76
+    },
+    {
+      "text": "is the unactivated uh first layer",
+      "start": 242,
+      "duration": 4.64
+    },
+    {
+      "text": "what we're going to do to get z1 is",
+      "start": 245.04,
+      "duration": 3.52
+    },
+    {
+      "text": "apply a weight and a bias",
+      "start": 246.64,
+      "duration": 4
+    },
+    {
+      "text": "so a weight is going to be this matrix",
+      "start": 248.56,
+      "duration": 3.36
+    },
+    {
+      "text": "we're going to take the dot product",
+      "start": 250.64,
+      "duration": 2.72
+    },
+    {
+      "text": "between that matrix",
+      "start": 251.92,
+      "duration": 4.8
+    },
+    {
+      "text": "and an a0 our input layer matrix",
+      "start": 253.36,
+      "duration": 4.399
+    },
+    {
+      "text": "and that's going to give us something",
+      "start": 256.72,
+      "duration": 2.799
+    },
+    {
+      "text": "and then we're going to add just a bias",
+      "start": 257.759,
+      "duration": 3.44
+    },
+    {
+      "text": "term to it what we're doing here is is",
+      "start": 259.519,
+      "duration": 2.881
+    },
+    {
+      "text": "really multiplying by",
+      "start": 261.199,
+      "duration": 2.801
+    },
+    {
+      "text": "a bunch of weights that correspond to",
+      "start": 262.4,
+      "duration": 3.2
+    },
+    {
+      "text": "each of these connections",
+      "start": 264,
+      "duration": 4.96
+    },
+    {
+      "text": "each of these what's 7 7840 connections",
+      "start": 265.6,
+      "duration": 4.879
+    },
+    {
+      "text": "and then we're going to add a constant",
+      "start": 268.96,
+      "duration": 3.679
+    },
+    {
+      "text": "bias term to each of the nodes",
+      "start": 270.479,
+      "duration": 3.841
+    },
+    {
+      "text": "we're going to do after that is kind of",
+      "start": 272.639,
+      "duration": 3.12
+    },
+    {
+      "text": "interesting we're going to apply",
+      "start": 274.32,
+      "duration": 4.879
+    },
+    {
+      "text": "an activation function to it so",
+      "start": 275.759,
+      "duration": 5.041
+    },
+    {
+      "text": "if we didn't apply an activation",
+      "start": 279.199,
+      "duration": 3.841
+    },
+    {
+      "text": "function what would happen is that each",
+      "start": 280.8,
+      "duration": 4.56
+    },
+    {
+      "text": "node would just be a linear combination",
+      "start": 283.04,
+      "duration": 4.159
+    },
+    {
+      "text": "of the nodes before it right plus a bias",
+      "start": 285.36,
+      "duration": 2.24
+    },
+    {
+      "text": "term",
+      "start": 287.199,
+      "duration": 1.841
+    },
+    {
+      "text": "the second layer is going to be a linear",
+      "start": 287.6,
+      "duration": 3.2
+    },
+    {
+      "text": "combination of the",
+      "start": 289.04,
+      "duration": 3.52
+    },
+    {
+      "text": "nodes in the first layer but the first",
+      "start": 290.8,
+      "duration": 3.119
+    },
+    {
+      "text": "layer is just a linear combination of",
+      "start": 292.56,
+      "duration": 2.48
+    },
+    {
+      "text": "the nodes in the",
+      "start": 293.919,
+      "duration": 3.361
+    },
+    {
+      "text": "input layer so what's really happened is",
+      "start": 295.04,
+      "duration": 3.76
+    },
+    {
+      "text": "that that second layer",
+      "start": 297.28,
+      "duration": 3.68
+    },
+    {
+      "text": "is just a linear combination of the",
+      "start": 298.8,
+      "duration": 3.679
+    },
+    {
+      "text": "input layer right it's like you don't",
+      "start": 300.96,
+      "duration": 2.959
+    },
+    {
+      "text": "have a hidden layer at all",
+      "start": 302.479,
+      "duration": 4.881
+    },
+    {
+      "text": "so if you only have linear combinations",
+      "start": 303.919,
+      "duration": 5.441
+    },
+    {
+      "text": "if you only have your weights and your",
+      "start": 307.36,
+      "duration": 3.2
+    },
+    {
+      "text": "biases",
+      "start": 309.36,
+      "duration": 2.16
+    },
+    {
+      "text": "you're never going to get a really",
+      "start": 310.56,
+      "duration": 2.4
+    },
+    {
+      "text": "interesting function out of neural",
+      "start": 311.52,
+      "duration": 2.08
+    },
+    {
+      "text": "network",
+      "start": 312.96,
+      "duration": 2.4
+    },
+    {
+      "text": "um really you're just doing a really",
+      "start": 313.6,
+      "duration": 4
+    },
+    {
+      "text": "fancy linear regression to solve that we",
+      "start": 315.36,
+      "duration": 2.88
+    },
+    {
+      "text": "apply",
+      "start": 317.6,
+      "duration": 3.68
+    },
+    {
+      "text": "a activation function there's a bunch of",
+      "start": 318.24,
+      "duration": 4.56
+    },
+    {
+      "text": "like common ones so tanch",
+      "start": 321.28,
+      "duration": 3.199
+    },
+    {
+      "text": "and sigmoid i'm sure you've heard of",
+      "start": 322.8,
+      "duration": 3.2
+    },
+    {
+      "text": "them they kind of look like this",
+      "start": 324.479,
+      "duration": 3.521
+    },
+    {
+      "text": "you know they got your nice curves and",
+      "start": 326,
+      "duration": 3.36
+    },
+    {
+      "text": "that's going to make it more interesting",
+      "start": 328,
+      "duration": 2.8
+    },
+    {
+      "text": "if you apply a tange function or a",
+      "start": 329.36,
+      "duration": 3.679
+    },
+    {
+      "text": "sigmoid function to all of the nodes in",
+      "start": 330.8,
+      "duration": 2.88
+    },
+    {
+      "text": "a layer",
+      "start": 333.039,
+      "duration": 2.241
+    },
+    {
+      "text": "um it's no longer linear right when you",
+      "start": 333.68,
+      "duration": 2.88
+    },
+    {
+      "text": "move on to the second layer that's",
+      "start": 335.28,
+      "duration": 3.84
+    },
+    {
+      "text": "adding now a sec a layer of complexity",
+      "start": 336.56,
+      "duration": 4.4
+    },
+    {
+      "text": "and a layer of interesting non-linear",
+      "start": 339.12,
+      "duration": 4.24
+    },
+    {
+      "text": "combination rather than just a linear",
+      "start": 340.96,
+      "duration": 4.079
+    },
+    {
+      "text": "model and that's going to make",
+      "start": 343.36,
+      "duration": 3.52
+    },
+    {
+      "text": "your your model able to be a lot more",
+      "start": 345.039,
+      "duration": 3.681
+    },
+    {
+      "text": "complex and more powerful",
+      "start": 346.88,
+      "duration": 3.599
+    },
+    {
+      "text": "we're going to be using another really",
+      "start": 348.72,
+      "duration": 3.44
+    },
+    {
+      "text": "commonly used activation function",
+      "start": 350.479,
+      "duration": 4.72
+    },
+    {
+      "text": "called relu or rectified linear unit",
+      "start": 352.16,
+      "duration": 5.039
+    },
+    {
+      "text": "so relu just looks like this it's it's",
+      "start": 355.199,
+      "duration": 3.521
+    },
+    {
+      "text": "really simple",
+      "start": 357.199,
+      "duration": 3.28
+    },
+    {
+      "text": "and how it works so real u of x is",
+      "start": 358.72,
+      "duration": 4
+    },
+    {
+      "text": "defined as if x is greater than zero rel",
+      "start": 360.479,
+      "duration": 3.681
+    },
+    {
+      "text": "u of x is just equal to x",
+      "start": 362.72,
+      "duration": 4.16
+    },
+    {
+      "text": "it's literally linear and if x is less",
+      "start": 364.16,
+      "duration": 4.159
+    },
+    {
+      "text": "than zero or less than or equal to zero",
+      "start": 366.88,
+      "duration": 2.64
+    },
+    {
+      "text": "it doesn't really matter",
+      "start": 368.319,
+      "duration": 2.961
+    },
+    {
+      "text": "it's equal to zero value is equal to",
+      "start": 369.52,
+      "duration": 3.36
+    },
+    {
+      "text": "zero so it's just this really simple",
+      "start": 371.28,
+      "duration": 2.16
+    },
+    {
+      "text": "function",
+      "start": 372.88,
+      "duration": 2.4
+    },
+    {
+      "text": "um but just that's going to add the",
+      "start": 373.44,
+      "duration": 3.44
+    },
+    {
+      "text": "complexity that we need",
+      "start": 375.28,
+      "duration": 4.32
+    },
+    {
+      "text": "a1 is going to be equal to the relu",
+      "start": 376.88,
+      "duration": 3.439
+    },
+    {
+      "text": "function",
+      "start": 379.6,
+      "duration": 4.48
+    },
+    {
+      "text": "applied to every value in z1",
+      "start": 380.319,
+      "duration": 4.88
+    },
+    {
+      "text": "now we're going to do kind of a similar",
+      "start": 384.08,
+      "duration": 4.399
+    },
+    {
+      "text": "thing to get from layer 1 to layer 2.",
+      "start": 385.199,
+      "duration": 6.081
+    },
+    {
+      "text": "so our z2 right so our unactivated",
+      "start": 388.479,
+      "duration": 4.321
+    },
+    {
+      "text": "second layer",
+      "start": 391.28,
+      "duration": 4.24
+    },
+    {
+      "text": "values is going to be equal to a second",
+      "start": 392.8,
+      "duration": 3.28
+    },
+    {
+      "text": "weight",
+      "start": 395.52,
+      "duration": 3.2
+    },
+    {
+      "text": "parameter right weights corresponding to",
+      "start": 396.08,
+      "duration": 3.679
+    },
+    {
+      "text": "the values of",
+      "start": 398.72,
+      "duration": 2.56
+    },
+    {
+      "text": "the weights on each of these connections",
+      "start": 399.759,
+      "duration": 2.961
+    },
+    {
+      "text": "here between the first and the second",
+      "start": 401.28,
+      "duration": 2.32
+    },
+    {
+      "text": "layers",
+      "start": 402.72,
+      "duration": 3.36
+    },
+    {
+      "text": "times our a1 times the activated first",
+      "start": 403.6,
+      "duration": 3.28
+    },
+    {
+      "text": "layer",
+      "start": 406.08,
+      "duration": 3.119
+    },
+    {
+      "text": "plus another constant bias term this",
+      "start": 406.88,
+      "duration": 3.439
+    },
+    {
+      "text": "time we're going to apply another",
+      "start": 409.199,
+      "duration": 3.28
+    },
+    {
+      "text": "activation function but the activation",
+      "start": 410.319,
+      "duration": 3.44
+    },
+    {
+      "text": "function we apply this time",
+      "start": 412.479,
+      "duration": 4.16
+    },
+    {
+      "text": "is not going to be a relu or sigmoid or",
+      "start": 413.759,
+      "duration": 4.481
+    },
+    {
+      "text": "tan or anything like that",
+      "start": 416.639,
+      "duration": 2.641
+    },
+    {
+      "text": "it's going to be something quite",
+      "start": 418.24,
+      "duration": 3.2
+    },
+    {
+      "text": "different it's called softmax because",
+      "start": 419.28,
+      "duration": 3.68
+    },
+    {
+      "text": "this is an output layer right each of",
+      "start": 421.44,
+      "duration": 2.64
+    },
+    {
+      "text": "the 10",
+      "start": 422.96,
+      "duration": 3.44
+    },
+    {
+      "text": "nodes corresponds to each of the 10",
+      "start": 424.08,
+      "duration": 4.239
+    },
+    {
+      "text": "digits that could be recognized",
+      "start": 426.4,
+      "duration": 3.359
+    },
+    {
+      "text": "we want each of them to have a",
+      "start": 428.319,
+      "duration": 3.041
+    },
+    {
+      "text": "probability right we want each of them",
+      "start": 429.759,
+      "duration": 3.041
+    },
+    {
+      "text": "to be a value between",
+      "start": 431.36,
+      "duration": 4.08
+    },
+    {
+      "text": "0 and 1 where 1 is absolute certainty",
+      "start": 432.8,
+      "duration": 3.36
+    },
+    {
+      "text": "and zero",
+      "start": 435.44,
+      "duration": 2.8
+    },
+    {
+      "text": "is no chance at that that's what it what",
+      "start": 436.16,
+      "duration": 4.24
+    },
+    {
+      "text": "it is so to get that we use a soft max",
+      "start": 438.24,
+      "duration": 2.88
+    },
+    {
+      "text": "function",
+      "start": 440.4,
+      "duration": 2.4
+    },
+    {
+      "text": "so i've just copy pasted an image here i",
+      "start": 441.12,
+      "duration": 3.12
+    },
+    {
+      "text": "didn't feel like uh",
+      "start": 442.8,
+      "duration": 3.36
+    },
+    {
+      "text": "writing this out myself it takes each of",
+      "start": 444.24,
+      "duration": 3.359
+    },
+    {
+      "text": "the nodes in the uh",
+      "start": 446.16,
+      "duration": 5.12
+    },
+    {
+      "text": "layer that you feed into it and",
+      "start": 447.599,
+      "duration": 5.921
+    },
+    {
+      "text": "it goes e to the z so e to that node",
+      "start": 451.28,
+      "duration": 3.759
+    },
+    {
+      "text": "divided by the sum of e",
+      "start": 453.52,
+      "duration": 4.32
+    },
+    {
+      "text": "to all of the nodes right or rather the",
+      "start": 455.039,
+      "duration": 4.641
+    },
+    {
+      "text": "sum over all the nodes of e to",
+      "start": 457.84,
+      "duration": 4.32
+    },
+    {
+      "text": "that node each of your outputs after the",
+      "start": 459.68,
+      "duration": 4.079
+    },
+    {
+      "text": "softmax activation",
+      "start": 462.16,
+      "duration": 3.439
+    },
+    {
+      "text": "is going to be between 0 and 1 right",
+      "start": 463.759,
+      "duration": 3.041
+    },
+    {
+      "text": "because e to the",
+      "start": 465.599,
+      "duration": 2.88
+    },
+    {
+      "text": "a single node is is always just going to",
+      "start": 466.8,
+      "duration": 3.119
+    },
+    {
+      "text": "be a part of the hole",
+      "start": 468.479,
+      "duration": 3.761
+    },
+    {
+      "text": "that is the sum of e to uh to all the",
+      "start": 469.919,
+      "duration": 3.12
+    },
+    {
+      "text": "nodes",
+      "start": 472.24,
+      "duration": 3.04
+    },
+    {
+      "text": "so for propagation is how you take an",
+      "start": 473.039,
+      "duration": 3.84
+    },
+    {
+      "text": "image and get a prediction out",
+      "start": 475.28,
+      "duration": 3.359
+    },
+    {
+      "text": "but that's not enough right we need good",
+      "start": 476.879,
+      "duration": 3.04
+    },
+    {
+      "text": "weights and biases",
+      "start": 478.639,
+      "duration": 3.28
+    },
+    {
+      "text": "to make these predictions and the whole",
+      "start": 479.919,
+      "duration": 3.601
+    },
+    {
+      "text": "thing about machine learning is that we",
+      "start": 481.919,
+      "duration": 1.921
+    },
+    {
+      "text": "will",
+      "start": 483.52,
+      "duration": 2
+    },
+    {
+      "text": "learn these weights and biases right we",
+      "start": 483.84,
+      "duration": 3.12
+    },
+    {
+      "text": "will run an algorithm",
+      "start": 485.52,
+      "duration": 4.16
+    },
+    {
+      "text": "to optimize these weights and biases as",
+      "start": 486.96,
+      "duration": 4.239
+    },
+    {
+      "text": "we run it over and over again",
+      "start": 489.68,
+      "duration": 3.04
+    },
+    {
+      "text": "we're going to do that in something",
+      "start": 491.199,
+      "duration": 3.361
+    },
+    {
+      "text": "called back prop",
+      "start": 492.72,
+      "duration": 4.8
+    },
+    {
+      "text": "backwards propagation and and what we're",
+      "start": 494.56,
+      "duration": 4.479
+    },
+    {
+      "text": "doing here is basically going the",
+      "start": 497.52,
+      "duration": 2.32
+    },
+    {
+      "text": "opposite way",
+      "start": 499.039,
+      "duration": 2.081
+    },
+    {
+      "text": "so we're going to start with our",
+      "start": 499.84,
+      "duration": 3.68
+    },
+    {
+      "text": "prediction and we're going to find out",
+      "start": 501.12,
+      "duration": 4.079
+    },
+    {
+      "text": "how much the prediction deviated by the",
+      "start": 503.52,
+      "duration": 2.959
+    },
+    {
+      "text": "actual label right so that's going to",
+      "start": 505.199,
+      "duration": 2.161
+    },
+    {
+      "text": "give us a sort of",
+      "start": 506.479,
+      "duration": 2.72
+    },
+    {
+      "text": "error and then we're going to see how",
+      "start": 507.36,
+      "duration": 3.76
+    },
+    {
+      "text": "much each of the previous weights and",
+      "start": 509.199,
+      "duration": 4.001
+    },
+    {
+      "text": "biases contributed to that error",
+      "start": 511.12,
+      "duration": 3.279
+    },
+    {
+      "text": "and then we're going to adjust those",
+      "start": 513.2,
+      "duration": 3.519
+    },
+    {
+      "text": "things accordingly so dz2 represents",
+      "start": 514.399,
+      "duration": 4.801
+    },
+    {
+      "text": "sort of an error of the second layer",
+      "start": 516.719,
+      "duration": 4.56
+    },
+    {
+      "text": "writes how much the the output layer is",
+      "start": 519.2,
+      "duration": 4.399
+    },
+    {
+      "text": "off by and this is really simple we just",
+      "start": 521.279,
+      "duration": 4.481
+    },
+    {
+      "text": "take our predictions and we subtract the",
+      "start": 523.599,
+      "duration": 3.601
+    },
+    {
+      "text": "actual labels from them and we're gonna",
+      "start": 525.76,
+      "duration": 3.6
+    },
+    {
+      "text": "one hot encode the correct label",
+      "start": 527.2,
+      "duration": 4
+    },
+    {
+      "text": "so for example if y equals four we're",
+      "start": 529.36,
+      "duration": 3.84
+    },
+    {
+      "text": "not going to subtract four from this",
+      "start": 531.2,
+      "duration": 4.319
+    },
+    {
+      "text": "right we're gonna encode y equals four",
+      "start": 533.2,
+      "duration": 3.759
+    },
+    {
+      "text": "into this array here",
+      "start": 535.519,
+      "duration": 2.88
+    },
+    {
+      "text": "where the fourth index right",
+      "start": 536.959,
+      "duration": 3.201
+    },
+    {
+      "text": "representing the fourth class is a one",
+      "start": 538.399,
+      "duration": 3.601
+    },
+    {
+      "text": "everything else has a zero from there we",
+      "start": 540.16,
+      "duration": 2.32
+    },
+    {
+      "text": "do some",
+      "start": 542,
+      "duration": 3.04
+    },
+    {
+      "text": "some fancy math to figure out how much w",
+      "start": 542.48,
+      "duration": 3.039
+    },
+    {
+      "text": "and b",
+      "start": 545.04,
+      "duration": 2.96
+    },
+    {
+      "text": "contributed to that error so we can find",
+      "start": 545.519,
+      "duration": 3.281
+    },
+    {
+      "text": "this variable",
+      "start": 548,
+      "duration": 3.04
+    },
+    {
+      "text": "dw2 that is the derivative of the loss",
+      "start": 548.8,
+      "duration": 3.52
+    },
+    {
+      "text": "function with respect",
+      "start": 551.04,
+      "duration": 4.08
+    },
+    {
+      "text": "to the weights in layer 2. db2 this one",
+      "start": 552.32,
+      "duration": 4.48
+    },
+    {
+      "text": "is really easy to understand",
+      "start": 555.12,
+      "duration": 4.24
+    },
+    {
+      "text": "what this literally is is an average of",
+      "start": 556.8,
+      "duration": 3.12
+    },
+    {
+      "text": "the",
+      "start": 559.36,
+      "duration": 2
+    },
+    {
+      "text": "absolute error right literally just the",
+      "start": 559.92,
+      "duration": 3.68
+    },
+    {
+      "text": "the error how much the output was off by",
+      "start": 561.36,
+      "duration": 3.76
+    },
+    {
+      "text": "that's for the second layer right we're",
+      "start": 563.6,
+      "duration": 3.359
+    },
+    {
+      "text": "going from uh we're finding",
+      "start": 565.12,
+      "duration": 3.76
+    },
+    {
+      "text": "how much the the second layer was off by",
+      "start": 566.959,
+      "duration": 3.041
+    },
+    {
+      "text": "from the prediction",
+      "start": 568.88,
+      "duration": 3.36
+    },
+    {
+      "text": "and then we find out uh correspondingly",
+      "start": 570,
+      "duration": 3.519
+    },
+    {
+      "text": "how much we should nudge",
+      "start": 572.24,
+      "duration": 4.32
+    },
+    {
+      "text": "our weight and our biases for this layer",
+      "start": 573.519,
+      "duration": 4.401
+    },
+    {
+      "text": "now we'll do the same thing for the",
+      "start": 576.56,
+      "duration": 2.8
+    },
+    {
+      "text": "first hidden layer but we're going to",
+      "start": 577.92,
+      "duration": 3.2
+    },
+    {
+      "text": "find dz1 right how much that hidden",
+      "start": 579.36,
+      "duration": 3.28
+    },
+    {
+      "text": "layer was off by and here there's a",
+      "start": 581.12,
+      "duration": 3.36
+    },
+    {
+      "text": "there's a fancy bit of math here",
+      "start": 582.64,
+      "duration": 3.6
+    },
+    {
+      "text": "that's the intuition is kind of that",
+      "start": 584.48,
+      "duration": 3.28
+    },
+    {
+      "text": "it's just doing propagation in reverse",
+      "start": 586.24,
+      "duration": 2.8
+    },
+    {
+      "text": "right here you see this this",
+      "start": 587.76,
+      "duration": 3.519
+    },
+    {
+      "text": "weight for the second term transpose",
+      "start": 589.04,
+      "duration": 4.56
+    },
+    {
+      "text": "times dz2 right we're taking the error",
+      "start": 591.279,
+      "duration": 4.56
+    },
+    {
+      "text": "from that second layer and applying the",
+      "start": 593.6,
+      "duration": 4.32
+    },
+    {
+      "text": "weights to it in reverse to get to the",
+      "start": 595.839,
+      "duration": 3.68
+    },
+    {
+      "text": "errors for the first layer",
+      "start": 597.92,
+      "duration": 3.76
+    },
+    {
+      "text": "and we're also taking this um this g",
+      "start": 599.519,
+      "duration": 4.081
+    },
+    {
+      "text": "prime here that's the derivative of the",
+      "start": 601.68,
+      "duration": 3.36
+    },
+    {
+      "text": "activation function",
+      "start": 603.6,
+      "duration": 2.88
+    },
+    {
+      "text": "uh because we have to undo the",
+      "start": 605.04,
+      "duration": 3.68
+    },
+    {
+      "text": "activation function to get the proper",
+      "start": 606.48,
+      "duration": 3.52
+    },
+    {
+      "text": "error for the first layer",
+      "start": 608.72,
+      "duration": 2.64
+    },
+    {
+      "text": "and then we do the same thing as we did",
+      "start": 610,
+      "duration": 3.6
+    },
+    {
+      "text": "before to calculate how much",
+      "start": 611.36,
+      "duration": 5.76
+    },
+    {
+      "text": "uh w1 and b1 contributed to the error",
+      "start": 613.6,
+      "duration": 5.44
+    },
+    {
+      "text": "in the first layer and that's how much",
+      "start": 617.12,
+      "duration": 4
+    },
+    {
+      "text": "we're going to nudge them by",
+      "start": 619.04,
+      "duration": 3.919
+    },
+    {
+      "text": "so yeah so after we do all this fancy",
+      "start": 621.12,
+      "duration": 3.76
+    },
+    {
+      "text": "calculation and figure out how much",
+      "start": 622.959,
+      "duration": 3.681
+    },
+    {
+      "text": "each weight term each bias term",
+      "start": 624.88,
+      "duration": 3.12
+    },
+    {
+      "text": "contributed",
+      "start": 626.64,
+      "duration": 3.52
+    },
+    {
+      "text": "to the error we update our parameters",
+      "start": 628,
+      "duration": 3.12
+    },
+    {
+      "text": "accordingly",
+      "start": 630.16,
+      "duration": 2.56
+    },
+    {
+      "text": "so this is a set of pretty simple",
+      "start": 631.12,
+      "duration": 3.839
+    },
+    {
+      "text": "equations right w1 is equal to w1",
+      "start": 632.72,
+      "duration": 4.64
+    },
+    {
+      "text": "minus alpha some learning rate alpha",
+      "start": 634.959,
+      "duration": 5.44
+    },
+    {
+      "text": "times dw1 similarly b1 is b1 minus alpha",
+      "start": 637.36,
+      "duration": 4.24
+    },
+    {
+      "text": "times db1",
+      "start": 640.399,
+      "duration": 4.321
+    },
+    {
+      "text": "w2 is w2 minus alpha times dw2",
+      "start": 641.6,
+      "duration": 6.4
+    },
+    {
+      "text": "and b2 is b2 minus alpha times uh",
+      "start": 644.72,
+      "duration": 5.76
+    },
+    {
+      "text": "d b2 alpha is what's called a hyper",
+      "start": 648,
+      "duration": 3.04
+    },
+    {
+      "text": "parameter",
+      "start": 650.48,
+      "duration": 3.12
+    },
+    {
+      "text": "it's not trained by the model uh the the",
+      "start": 651.04,
+      "duration": 3.84
+    },
+    {
+      "text": "when you run this cycle when you run",
+      "start": 653.6,
+      "duration": 2.56
+    },
+    {
+      "text": "gradient descent",
+      "start": 654.88,
+      "duration": 3.36
+    },
+    {
+      "text": "um the learning rate is a parameter that",
+      "start": 656.16,
+      "duration": 3.919
+    },
+    {
+      "text": "you set not that gradient descent",
+      "start": 658.24,
+      "duration": 5.12
+    },
+    {
+      "text": "set so once we've updated it",
+      "start": 660.079,
+      "duration": 5.521
+    },
+    {
+      "text": "we run through the whole thing again we",
+      "start": 663.36,
+      "duration": 3.76
+    },
+    {
+      "text": "go through forward prop we make a new",
+      "start": 665.6,
+      "duration": 2.479
+    },
+    {
+      "text": "round of predictions",
+      "start": 667.12,
+      "duration": 2.399
+    },
+    {
+      "text": "we are changing our parameters tweaking",
+      "start": 668.079,
+      "duration": 3.041
+    },
+    {
+      "text": "them so that the prediction is",
+      "start": 669.519,
+      "duration": 4.721
+    },
+    {
+      "text": "ever closer to what the actual correct",
+      "start": 671.12,
+      "duration": 4.08
+    },
+    {
+      "text": "answer should be",
+      "start": 674.24,
+      "duration": 4
+    },
+    {
+      "text": "that's math now let's get to",
+      "start": 675.2,
+      "duration": 5.68
+    },
+    {
+      "text": "coding it up",
+      "start": 678.24,
+      "duration": 2.64
+    },
+    {
+      "text": "i'm going to attempt to do it in the",
+      "start": 681.36,
+      "duration": 3.68
+    },
+    {
+      "text": "next 30 minutes",
+      "start": 682.959,
+      "duration": 4
+    },
+    {
+      "text": "buying we're gonna be doing this on a",
+      "start": 685.04,
+      "duration": 3.76
+    },
+    {
+      "text": "site called kaggle kaggle's this really",
+      "start": 686.959,
+      "duration": 3.761
+    },
+    {
+      "text": "great site that",
+      "start": 688.8,
+      "duration": 4.64
+    },
+    {
+      "text": "makes it really easy to access data sets",
+      "start": 690.72,
+      "duration": 4.64
+    },
+    {
+      "text": "and have notebooks have python notebooks",
+      "start": 693.44,
+      "duration": 3.2
+    },
+    {
+      "text": "jupyter notebooks",
+      "start": 695.36,
+      "duration": 3.76
+    },
+    {
+      "text": "so our digit recognizer data set is",
+      "start": 696.64,
+      "duration": 3.12
+    },
+    {
+      "text": "already",
+      "start": 699.12,
+      "duration": 2.48
+    },
+    {
+      "text": "nicely configured here and all we have",
+      "start": 699.76,
+      "duration": 3.84
+    },
+    {
+      "text": "to do is hit new notebook and we will be",
+      "start": 701.6,
+      "duration": 3.76
+    },
+    {
+      "text": "taken into a kernel",
+      "start": 703.6,
+      "duration": 4.479
+    },
+    {
+      "text": "here we are we have a notebook and let's",
+      "start": 705.36,
+      "duration": 4.24
+    },
+    {
+      "text": "just rename it real quick so the first",
+      "start": 708.079,
+      "duration": 2.641
+    },
+    {
+      "text": "thing that we're going to do is",
+      "start": 709.6,
+      "duration": 3.039
+    },
+    {
+      "text": "import our package so numpy is for",
+      "start": 710.72,
+      "duration": 3.2
+    },
+    {
+      "text": "linear algebra for like working with",
+      "start": 712.639,
+      "duration": 2.961
+    },
+    {
+      "text": "matrices and then pandas is",
+      "start": 713.92,
+      "duration": 3.039
+    },
+    {
+      "text": "just for reading the data we're not",
+      "start": 715.6,
+      "duration": 4
+    },
+    {
+      "text": "going to use it much so import",
+      "start": 716.959,
+      "duration": 4.56
+    },
+    {
+      "text": "next let's import the data so we're",
+      "start": 719.6,
+      "duration": 3.28
+    },
+    {
+      "text": "going to use pandas for this so",
+      "start": 721.519,
+      "duration": 3.681
+    },
+    {
+      "text": "data is going to be equal to pandas dot",
+      "start": 722.88,
+      "duration": 3.6
+    },
+    {
+      "text": "read csv",
+      "start": 725.2,
+      "duration": 3.199
+    },
+    {
+      "text": "we're going to specify the file path so",
+      "start": 726.48,
+      "duration": 3.44
+    },
+    {
+      "text": "you can see how kaggle makes it super",
+      "start": 728.399,
+      "duration": 2.161
+    },
+    {
+      "text": "easy to",
+      "start": 729.92,
+      "duration": 2.719
+    },
+    {
+      "text": "access the data here because it's pandas",
+      "start": 730.56,
+      "duration": 3.279
+    },
+    {
+      "text": "it loads it as a",
+      "start": 732.639,
+      "duration": 3.76
+    },
+    {
+      "text": "pandas data frame we can call head on it",
+      "start": 733.839,
+      "duration": 4.321
+    },
+    {
+      "text": "and get a little preview of what's up",
+      "start": 736.399,
+      "duration": 2.24
+    },
+    {
+      "text": "here",
+      "start": 738.16,
+      "duration": 2.4
+    },
+    {
+      "text": "each row corresponds to one training",
+      "start": 738.639,
+      "duration": 4.241
+    },
+    {
+      "text": "example they have a label",
+      "start": 740.56,
+      "duration": 4
+    },
+    {
+      "text": "and they also have all these pixel",
+      "start": 742.88,
+      "duration": 3.759
+    },
+    {
+      "text": "values for each example we have pixel 0",
+      "start": 744.56,
+      "duration": 3.44
+    },
+    {
+      "text": "all the way to pixel",
+      "start": 746.639,
+      "duration": 4.721
+    },
+    {
+      "text": "783 so inclusive that is 784 pixels we",
+      "start": 748,
+      "duration": 5.2
+    },
+    {
+      "text": "actually don't want to be working with a",
+      "start": 751.36,
+      "duration": 3.36
+    },
+    {
+      "text": "pandas data frame we want to be working",
+      "start": 753.2,
+      "duration": 3.28
+    },
+    {
+      "text": "with numpy arrays so that we can",
+      "start": 754.72,
+      "duration": 3.84
+    },
+    {
+      "text": "manipulate them and do fancy linear",
+      "start": 756.48,
+      "duration": 3.2
+    },
+    {
+      "text": "algebra with them",
+      "start": 758.56,
+      "duration": 3.12
+    },
+    {
+      "text": "so we are going to say that data is",
+      "start": 759.68,
+      "duration": 3.12
+    },
+    {
+      "text": "equal to mp",
+      "start": 761.68,
+      "duration": 4.08
+    },
+    {
+      "text": "array of data and then we are going to",
+      "start": 762.8,
+      "duration": 3.599
+    },
+    {
+      "text": "split up",
+      "start": 765.76,
+      "duration": 4.319
+    },
+    {
+      "text": "our data into uh dev and training sets",
+      "start": 766.399,
+      "duration": 5.44
+    },
+    {
+      "text": "there's always a risk of overfitting",
+      "start": 770.079,
+      "duration": 3.281
+    },
+    {
+      "text": "right there's a risk that your model is",
+      "start": 771.839,
+      "duration": 2.321
+    },
+    {
+      "text": "going to",
+      "start": 773.36,
+      "duration": 2.719
+    },
+    {
+      "text": "figure out exactly how to make exactly",
+      "start": 774.16,
+      "duration": 3.52
+    },
+    {
+      "text": "the right predictions for your training",
+      "start": 776.079,
+      "duration": 2.161
+    },
+    {
+      "text": "data",
+      "start": 777.68,
+      "duration": 2.88
+    },
+    {
+      "text": "but not generalized to the data that you",
+      "start": 778.24,
+      "duration": 4.08
+    },
+    {
+      "text": "actually want to be generalizing to so",
+      "start": 780.56,
+      "duration": 3.04
+    },
+    {
+      "text": "you set aside a chunk of data that you",
+      "start": 782.32,
+      "duration": 2.8
+    },
+    {
+      "text": "don't train on and that's your",
+      "start": 783.6,
+      "duration": 4.08
+    },
+    {
+      "text": "dev or your cross validation data and",
+      "start": 785.12,
+      "duration": 3.519
+    },
+    {
+      "text": "that way you can",
+      "start": 787.68,
+      "duration": 2.64
+    },
+    {
+      "text": "test your hyper parameters on that data",
+      "start": 788.639,
+      "duration": 3.041
+    },
+    {
+      "text": "you can test your performance on that",
+      "start": 790.32,
+      "duration": 1.84
+    },
+    {
+      "text": "data",
+      "start": 791.68,
+      "duration": 2.159
+    },
+    {
+      "text": "you eliminate the risk of overfitting to",
+      "start": 792.16,
+      "duration": 3.44
+    },
+    {
+      "text": "your actual training data we're going to",
+      "start": 793.839,
+      "duration": 3.881
+    },
+    {
+      "text": "shuffle our data so hopefully it's just",
+      "start": 795.6,
+      "duration": 3.84
+    },
+    {
+      "text": "mp.random.shuffle okay",
+      "start": 797.72,
+      "duration": 3.32
+    },
+    {
+      "text": "hopefully i'm not going crazy here we're",
+      "start": 799.44,
+      "duration": 3.12
+    },
+    {
+      "text": "gonna do one one thing before that we're",
+      "start": 801.04,
+      "duration": 2.08
+    },
+    {
+      "text": "gonna get",
+      "start": 802.56,
+      "duration": 3.76
+    },
+    {
+      "text": "the dimensions of the data so m",
+      "start": 803.12,
+      "duration": 6.88
+    },
+    {
+      "text": "and n is gonna be called data.shape",
+      "start": 806.32,
+      "duration": 5.759
+    },
+    {
+      "text": "so m is is just the amount of rows right",
+      "start": 810,
+      "duration": 3.04
+    },
+    {
+      "text": "that's the amount of",
+      "start": 812.079,
+      "duration": 3.44
+    },
+    {
+      "text": "examples that we have and n is not quite",
+      "start": 813.04,
+      "duration": 3.599
+    },
+    {
+      "text": "the amount of features it's the amount",
+      "start": 815.519,
+      "duration": 2.32
+    },
+    {
+      "text": "of features plus one because we have",
+      "start": 816.639,
+      "duration": 1.521
+    },
+    {
+      "text": "this",
+      "start": 817.839,
+      "duration": 2
+    },
+    {
+      "text": "label column but it'll be helpful to",
+      "start": 818.16,
+      "duration": 3.919
+    },
+    {
+      "text": "have that so there we go",
+      "start": 819.839,
+      "duration": 3.841
+    },
+    {
+      "text": "and now we're going to go into the dev",
+      "start": 822.079,
+      "duration": 3.681
+    },
+    {
+      "text": "is going to be equal to data",
+      "start": 823.68,
+      "duration": 5.92
+    },
+    {
+      "text": "um from zero to a thousand okay the",
+      "start": 825.76,
+      "duration": 5.92
+    },
+    {
+      "text": "first a thousand examples and then",
+      "start": 829.6,
+      "duration": 3.52
+    },
+    {
+      "text": "i want all of it so i'm gonna go with",
+      "start": 831.68,
+      "duration": 3.839
+    },
+    {
+      "text": "that okay let's transpose this as well",
+      "start": 833.12,
+      "duration": 4.399
+    },
+    {
+      "text": "okay so we're gonna transpose it so if",
+      "start": 835.519,
+      "duration": 3.921
+    },
+    {
+      "text": "you remember that's the thing where we",
+      "start": 837.519,
+      "duration": 5.12
+    },
+    {
+      "text": "we flip it so that each column is a uh",
+      "start": 839.44,
+      "duration": 5.199
+    },
+    {
+      "text": "example rather than each row and that",
+      "start": 842.639,
+      "duration": 3.041
+    },
+    {
+      "text": "just makes it easier",
+      "start": 844.639,
+      "duration": 2.88
+    },
+    {
+      "text": "here y dev if you remember is now going",
+      "start": 845.68,
+      "duration": 3.279
+    },
+    {
+      "text": "to be the first row right it's going to",
+      "start": 847.519,
+      "duration": 2.961
+    },
+    {
+      "text": "be super convenient",
+      "start": 848.959,
+      "duration": 4.88
+    },
+    {
+      "text": "uh why div damn what am i doing datadev0",
+      "start": 850.48,
+      "duration": 6.479
+    },
+    {
+      "text": "and xdev is going to be data dev 1",
+      "start": 853.839,
+      "duration": 5.921
+    },
+    {
+      "text": "2 n remember that that's our n coming in",
+      "start": 856.959,
+      "duration": 3.601
+    },
+    {
+      "text": "handy here",
+      "start": 859.76,
+      "duration": 2.4
+    },
+    {
+      "text": "and then our data train this is the data",
+      "start": 860.56,
+      "duration": 2.719
+    },
+    {
+      "text": "we're actually training on it's going to",
+      "start": 862.16,
+      "duration": 1.44
+    },
+    {
+      "text": "be",
+      "start": 863.279,
+      "duration": 3.201
+    },
+    {
+      "text": "zero sorry 1000 to m so all the rest of",
+      "start": 863.6,
+      "duration": 4.479
+    },
+    {
+      "text": "it transpose it again",
+      "start": 866.48,
+      "duration": 4.159
+    },
+    {
+      "text": "y train is going to equal the data train",
+      "start": 868.079,
+      "duration": 3.76
+    },
+    {
+      "text": "at zero",
+      "start": 870.639,
+      "duration": 4.481
+    },
+    {
+      "text": "and then x changes data train uh from",
+      "start": 871.839,
+      "duration": 4.721
+    },
+    {
+      "text": "one to n",
+      "start": 875.12,
+      "duration": 3.2
+    },
+    {
+      "text": "beautiful so this should be all of our",
+      "start": 876.56,
+      "duration": 4.16
+    },
+    {
+      "text": "data loaded in let's run that",
+      "start": 878.32,
+      "duration": 5.36
+    },
+    {
+      "text": "and uh take a look at for example y",
+      "start": 880.72,
+      "duration": 4.64
+    },
+    {
+      "text": "train okay",
+      "start": 883.68,
+      "duration": 3.36
+    },
+    {
+      "text": "y train look at that so we have an array",
+      "start": 885.36,
+      "duration": 3.36
+    },
+    {
+      "text": "of all of our labels and then let's take",
+      "start": 887.04,
+      "duration": 2.88
+    },
+    {
+      "text": "a look at x train",
+      "start": 888.72,
+      "duration": 3.2
+    },
+    {
+      "text": "zero that's like the shape it's not",
+      "start": 889.92,
+      "duration": 3.599
+    },
+    {
+      "text": "super helpful look at that",
+      "start": 891.92,
+      "duration": 3.52
+    },
+    {
+      "text": "um that's looking at the first row so",
+      "start": 893.519,
+      "duration": 3.281
+    },
+    {
+      "text": "that's actually not what i want",
+      "start": 895.44,
+      "duration": 5.04
+    },
+    {
+      "text": "i believe i want this there we go",
+      "start": 896.8,
+      "duration": 5.839
+    },
+    {
+      "text": "so there we go that's our first column",
+      "start": 900.48,
+      "duration": 4.96
+    },
+    {
+      "text": "and it has 784 pixels in it that's",
+      "start": 902.639,
+      "duration": 4.401
+    },
+    {
+      "text": "exactly what we want",
+      "start": 905.44,
+      "duration": 4.8
+    },
+    {
+      "text": "so okay now we have our data now we can",
+      "start": 907.04,
+      "duration": 3.76
+    },
+    {
+      "text": "start just",
+      "start": 910.24,
+      "duration": 2.64
+    },
+    {
+      "text": "bashing out code for the uh for the",
+      "start": 910.8,
+      "duration": 3.52
+    },
+    {
+      "text": "actual neural network part let's see how",
+      "start": 912.88,
+      "duration": 3.199
+    },
+    {
+      "text": "much time we spent okay seven minutes",
+      "start": 914.32,
+      "duration": 3.36
+    },
+    {
+      "text": "we'll move fast we'll move fast",
+      "start": 916.079,
+      "duration": 2.88
+    },
+    {
+      "text": "the first thing we're going to do is",
+      "start": 917.68,
+      "duration": 3.2
+    },
+    {
+      "text": "initialize all of our parameters",
+      "start": 918.959,
+      "duration": 6
+    },
+    {
+      "text": "we need a starting um w1 b1 w2 b2",
+      "start": 920.88,
+      "duration": 5.84
+    },
+    {
+      "text": "right and we have all the dimensions for",
+      "start": 924.959,
+      "duration": 3.12
+    },
+    {
+      "text": "them here so we're going to go",
+      "start": 926.72,
+      "duration": 4.4
+    },
+    {
+      "text": "def init params and this takes no",
+      "start": 928.079,
+      "duration": 4.721
+    },
+    {
+      "text": "arguments it doesn't need any uh any",
+      "start": 931.12,
+      "duration": 3.2
+    },
+    {
+      "text": "arguments for that function because it's",
+      "start": 932.8,
+      "duration": 3.279
+    },
+    {
+      "text": "creating the complete from scratch",
+      "start": 934.32,
+      "duration": 6.319
+    },
+    {
+      "text": "w1 is mp.random",
+      "start": 936.079,
+      "duration": 8.241
+    },
+    {
+      "text": "and i think is it that mp random rand",
+      "start": 940.639,
+      "duration": 6.88
+    },
+    {
+      "text": "believe it's it's rand n",
+      "start": 944.32,
+      "duration": 6
+    },
+    {
+      "text": "okay and our first and we want the",
+      "start": 947.519,
+      "duration": 5.281
+    },
+    {
+      "text": "dimensions of this array to be",
+      "start": 950.32,
+      "duration": 5.68
+    },
+    {
+      "text": "w1 is going to be 10 by 784",
+      "start": 952.8,
+      "duration": 4.8
+    },
+    {
+      "text": "this is going to generate random values",
+      "start": 956,
+      "duration": 3.36
+    },
+    {
+      "text": "between 0 and 1",
+      "start": 957.6,
+      "duration": 4.159
+    },
+    {
+      "text": "for each uh element of this array so",
+      "start": 959.36,
+      "duration": 4.159
+    },
+    {
+      "text": "we're actually subtract 0.5 from that to",
+      "start": 961.759,
+      "duration": 4.161
+    },
+    {
+      "text": "get it between negative 0.5 and 0.5",
+      "start": 963.519,
+      "duration": 5.921
+    },
+    {
+      "text": "v1 is going to be mp.random.",
+      "start": 965.92,
+      "duration": 5.44
+    },
+    {
+      "text": "the dimensions here are going to be uh",
+      "start": 969.44,
+      "duration": 3.28
+    },
+    {
+      "text": "10 by",
+      "start": 971.36,
+      "duration": 4.719
+    },
+    {
+      "text": "1. and again we're going to subtract 0.5",
+      "start": 972.72,
+      "duration": 4.239
+    },
+    {
+      "text": "from that",
+      "start": 976.079,
+      "duration": 4.641
+    },
+    {
+      "text": "and then same exact thing for w2",
+      "start": 976.959,
+      "duration": 8
+    },
+    {
+      "text": "okay so w2 is going to be 10 by 10",
+      "start": 980.72,
+      "duration": 6.32
+    },
+    {
+      "text": "and b2 is going to be that and then",
+      "start": 984.959,
+      "duration": 3.601
+    },
+    {
+      "text": "we're going to return all these values",
+      "start": 987.04,
+      "duration": 3.68
+    },
+    {
+      "text": "okay",
+      "start": 988.56,
+      "duration": 4.48
+    },
+    {
+      "text": "after we initialize the params we are",
+      "start": 990.72,
+      "duration": 4
+    },
+    {
+      "text": "basically ready to go into forward",
+      "start": 993.04,
+      "duration": 2.4
+    },
+    {
+      "text": "propagation",
+      "start": 994.72,
+      "duration": 3.84
+    },
+    {
+      "text": "so we're going to go def forward prop",
+      "start": 995.44,
+      "duration": 7.04
+    },
+    {
+      "text": "and this is going to take w1 b1 w2 b2 as",
+      "start": 998.56,
+      "duration": 4.88
+    },
+    {
+      "text": "arguments",
+      "start": 1002.48,
+      "duration": 4.4
+    },
+    {
+      "text": "and also x we're also going to need x",
+      "start": 1003.44,
+      "duration": 6
+    },
+    {
+      "text": "so first we're going to calculate um",
+      "start": 1006.88,
+      "duration": 3.68
+    },
+    {
+      "text": "let's calculate",
+      "start": 1009.44,
+      "duration": 5.36
+    },
+    {
+      "text": "z1 okay so z1 is going to be equal to w1",
+      "start": 1010.56,
+      "duration": 6.8
+    },
+    {
+      "text": "dot so remember w1 is a numpy array so",
+      "start": 1014.8,
+      "duration": 3.599
+    },
+    {
+      "text": "we can",
+      "start": 1017.36,
+      "duration": 3.919
+    },
+    {
+      "text": "do matrix operations using uh this dot",
+      "start": 1018.399,
+      "duration": 4.321
+    },
+    {
+      "text": "dot",
+      "start": 1021.279,
+      "duration": 4.881
+    },
+    {
+      "text": "dot x okay plus b1 now a1 is going to be",
+      "start": 1022.72,
+      "duration": 4
+    },
+    {
+      "text": "equal to",
+      "start": 1026.16,
+      "duration": 4.08
+    },
+    {
+      "text": "rel u of z1",
+      "start": 1026.72,
+      "duration": 5.599
+    },
+    {
+      "text": "but relu is not defined so let's define",
+      "start": 1030.24,
+      "duration": 3.04
+    },
+    {
+      "text": "relu here",
+      "start": 1032.319,
+      "duration": 5.041
+    },
+    {
+      "text": "probably u of uh z",
+      "start": 1033.28,
+      "duration": 6.96
+    },
+    {
+      "text": "and um and remember row u is just this",
+      "start": 1037.36,
+      "duration": 4.4
+    },
+    {
+      "text": "this linear function right here",
+      "start": 1040.24,
+      "duration": 3.52
+    },
+    {
+      "text": "right it's it's gonna be x if x is",
+      "start": 1041.76,
+      "duration": 3.52
+    },
+    {
+      "text": "greater than zero and zero if x is",
+      "start": 1043.76,
+      "duration": 2.88
+    },
+    {
+      "text": "less than or equal to zero there's a",
+      "start": 1045.28,
+      "duration": 2.92
+    },
+    {
+      "text": "pretty elegant way to do this that's",
+      "start": 1046.64,
+      "duration": 2.88
+    },
+    {
+      "text": "np.maximum",
+      "start": 1048.2,
+      "duration": 4.68
+    },
+    {
+      "text": "i'm gonna take the max of zero and z",
+      "start": 1049.52,
+      "duration": 6
+    },
+    {
+      "text": "and this is element wise so when we take",
+      "start": 1052.88,
+      "duration": 4.24
+    },
+    {
+      "text": "maximum like this what it's doing is",
+      "start": 1055.52,
+      "duration": 3.2
+    },
+    {
+      "text": "it's going through each",
+      "start": 1057.12,
+      "duration": 4.08
+    },
+    {
+      "text": "element in z if it's greater than zero",
+      "start": 1058.72,
+      "duration": 3.44
+    },
+    {
+      "text": "it's just going to return",
+      "start": 1061.2,
+      "duration": 2.8
+    },
+    {
+      "text": "z right but if it's less than zero it's",
+      "start": 1062.16,
+      "duration": 3.44
+    },
+    {
+      "text": "just going to return zero",
+      "start": 1064,
+      "duration": 3.52
+    },
+    {
+      "text": "so this is uh this is exactly what we",
+      "start": 1065.6,
+      "duration": 3.04
+    },
+    {
+      "text": "want we'll return",
+      "start": 1067.52,
+      "duration": 4.48
+    },
+    {
+      "text": "that so a1 is going to equal to relu of",
+      "start": 1068.64,
+      "duration": 5.6
+    },
+    {
+      "text": "z1 that's exactly what we want",
+      "start": 1072,
+      "duration": 4.32
+    },
+    {
+      "text": "uh great and now we'll do z2 c2 is going",
+      "start": 1074.24,
+      "duration": 3.12
+    },
+    {
+      "text": "to be equal to w2",
+      "start": 1076.32,
+      "duration": 4.239
+    },
+    {
+      "text": "dot a1 now plus b2",
+      "start": 1077.36,
+      "duration": 4.72
+    },
+    {
+      "text": "and then a2 is going to be equal to",
+      "start": 1080.559,
+      "duration": 4.161
+    },
+    {
+      "text": "softmax",
+      "start": 1082.08,
+      "duration": 6
+    },
+    {
+      "text": "of a1 and again we need to define",
+      "start": 1084.72,
+      "duration": 6.4
+    },
+    {
+      "text": "softmax now softmax of z",
+      "start": 1088.08,
+      "duration": 5.92
+    },
+    {
+      "text": "and we're going to return here it's",
+      "start": 1091.12,
+      "duration": 3.439
+    },
+    {
+      "text": "going to be",
+      "start": 1094,
+      "duration": 1.84
+    },
+    {
+      "text": "we're going to reference this formula",
+      "start": 1094.559,
+      "duration": 2.961
+    },
+    {
+      "text": "right here and what we can actually do",
+      "start": 1095.84,
+      "duration": 3.839
+    },
+    {
+      "text": "is mp.exp and remember that's just like",
+      "start": 1097.52,
+      "duration": 3.6
+    },
+    {
+      "text": "that's just e to the x right and we're",
+      "start": 1099.679,
+      "duration": 3.12
+    },
+    {
+      "text": "doing that to each element of the array",
+      "start": 1101.12,
+      "duration": 2.799
+    },
+    {
+      "text": "so we're going to do this",
+      "start": 1102.799,
+      "duration": 4.561
+    },
+    {
+      "text": "divided by mp.sum",
+      "start": 1103.919,
+      "duration": 3.441
+    },
+    {
+      "text": "of xp across z first it just applies",
+      "start": 1107.44,
+      "duration": 5.119
+    },
+    {
+      "text": "like e to the z to every single value",
+      "start": 1110.559,
+      "duration": 3.921
+    },
+    {
+      "text": "and then np dot sum is going to sum up",
+      "start": 1112.559,
+      "duration": 3.12
+    },
+    {
+      "text": "through each column so it preserves the",
+      "start": 1114.48,
+      "duration": 2.8
+    },
+    {
+      "text": "amount of columns and then collapses the",
+      "start": 1115.679,
+      "duration": 2.961
+    },
+    {
+      "text": "amount of rows",
+      "start": 1117.28,
+      "duration": 4.399
+    },
+    {
+      "text": "to just one to get this sum",
+      "start": 1118.64,
+      "duration": 4.8
+    },
+    {
+      "text": "right and that's because and that's",
+      "start": 1121.679,
+      "duration": 3.12
+    },
+    {
+      "text": "exactly what we want we want",
+      "start": 1123.44,
+      "duration": 3.68
+    },
+    {
+      "text": "the sum for each column across all of",
+      "start": 1124.799,
+      "duration": 3.841
+    },
+    {
+      "text": "the rows in that column",
+      "start": 1127.12,
+      "duration": 3.76
+    },
+    {
+      "text": "and we want to divide each element by",
+      "start": 1128.64,
+      "duration": 3.84
+    },
+    {
+      "text": "that sum and that's going to give us the",
+      "start": 1130.88,
+      "duration": 3.36
+    },
+    {
+      "text": "probability that we want",
+      "start": 1132.48,
+      "duration": 3.92
+    },
+    {
+      "text": "so there we go that's that's for prop",
+      "start": 1134.24,
+      "duration": 3.12
+    },
+    {
+      "text": "forward prop is done",
+      "start": 1136.4,
+      "duration": 4.24
+    },
+    {
+      "text": "now in backprop we are going to take in",
+      "start": 1137.36,
+      "duration": 6.88
+    },
+    {
+      "text": "let's just take in all of these okay",
+      "start": 1140.64,
+      "duration": 5.12
+    },
+    {
+      "text": "beautiful so the first thing that we're",
+      "start": 1144.24,
+      "duration": 3.36
+    },
+    {
+      "text": "going to do is we actually need to",
+      "start": 1145.76,
+      "duration": 3.52
+    },
+    {
+      "text": "do one thing to white we need to one hot",
+      "start": 1147.6,
+      "duration": 3.92
+    },
+    {
+      "text": "and code y we need to take these labels",
+      "start": 1149.28,
+      "duration": 4.8
+    },
+    {
+      "text": "and turn it into um this this matrix",
+      "start": 1151.52,
+      "duration": 3.76
+    },
+    {
+      "text": "thing here remember",
+      "start": 1154.08,
+      "duration": 4.88
+    },
+    {
+      "text": "so oops we're going to define a function",
+      "start": 1155.28,
+      "duration": 7.6
+    },
+    {
+      "text": "one hot okay and it's going to take in y",
+      "start": 1158.96,
+      "duration": 5.2
+    },
+    {
+      "text": "and uh here i've actually cheated a",
+      "start": 1162.88,
+      "duration": 3.6
+    },
+    {
+      "text": "little bit and i've taken one hot from",
+      "start": 1164.16,
+      "duration": 3.04
+    },
+    {
+      "text": "uh",
+      "start": 1166.48,
+      "duration": 2.64
+    },
+    {
+      "text": "from uh when i did this previously what",
+      "start": 1167.2,
+      "duration": 3.599
+    },
+    {
+      "text": "this is doing is first it creates this",
+      "start": 1169.12,
+      "duration": 2.08
+    },
+    {
+      "text": "new",
+      "start": 1170.799,
+      "duration": 3.12
+    },
+    {
+      "text": "matrix one hot y right which is just m",
+      "start": 1171.2,
+      "duration": 3.359
+    },
+    {
+      "text": "zeros it's",
+      "start": 1173.919,
+      "duration": 3.201
+    },
+    {
+      "text": "uh an array a matrix of zeros and this",
+      "start": 1174.559,
+      "duration": 3.281
+    },
+    {
+      "text": "is a tuple of",
+      "start": 1177.12,
+      "duration": 3.52
+    },
+    {
+      "text": "size right so y dot size is just a",
+      "start": 1177.84,
+      "duration": 4.16
+    },
+    {
+      "text": "length of size so this is",
+      "start": 1180.64,
+      "duration": 3.68
+    },
+    {
+      "text": "um this is m right this is how many",
+      "start": 1182,
+      "duration": 3.6
+    },
+    {
+      "text": "examples there are",
+      "start": 1184.32,
+      "duration": 3.68
+    },
+    {
+      "text": "and then y dot max plus one it assumes",
+      "start": 1185.6,
+      "duration": 3.92
+    },
+    {
+      "text": "that the classes are",
+      "start": 1188,
+      "duration": 3.679
+    },
+    {
+      "text": "uh you know zero through nine right so",
+      "start": 1189.52,
+      "duration": 3.6
+    },
+    {
+      "text": "the max is going to be nine and then we",
+      "start": 1191.679,
+      "duration": 2.481
+    },
+    {
+      "text": "add one to that",
+      "start": 1193.12,
+      "duration": 2.96
+    },
+    {
+      "text": "and we get 10 which is exactly how many",
+      "start": 1194.16,
+      "duration": 3.6
+    },
+    {
+      "text": "output classes we want",
+      "start": 1196.08,
+      "duration": 4.24
+    },
+    {
+      "text": "so this creates the correctly sized",
+      "start": 1197.76,
+      "duration": 3.6
+    },
+    {
+      "text": "matrix for us",
+      "start": 1200.32,
+      "duration": 3.2
+    },
+    {
+      "text": "and this is this is a really cool thing",
+      "start": 1201.36,
+      "duration": 4.08
+    },
+    {
+      "text": "you're indexing through one hot y",
+      "start": 1203.52,
+      "duration": 4.88
+    },
+    {
+      "text": "using arrays right mp dot a range white",
+      "start": 1205.44,
+      "duration": 4.4
+    },
+    {
+      "text": "dot size this is gonna",
+      "start": 1208.4,
+      "duration": 3.68
+    },
+    {
+      "text": "create an array right that's just a",
+      "start": 1209.84,
+      "duration": 3.44
+    },
+    {
+      "text": "range from",
+      "start": 1212.08,
+      "duration": 3.68
+    },
+    {
+      "text": "uh zero to m right to the number of",
+      "start": 1213.28,
+      "duration": 3.68
+    },
+    {
+      "text": "training examples",
+      "start": 1215.76,
+      "duration": 3.76
+    },
+    {
+      "text": "um and that specifies what row this is",
+      "start": 1216.96,
+      "duration": 3.68
+    },
+    {
+      "text": "accessing",
+      "start": 1219.52,
+      "duration": 3.92
+    },
+    {
+      "text": "and then why remember is our whole thing",
+      "start": 1220.64,
+      "duration": 4.24
+    },
+    {
+      "text": "of labels right this is going to be like",
+      "start": 1223.44,
+      "duration": 4.8
+    },
+    {
+      "text": "0 1 4 1 7 whatever",
+      "start": 1224.88,
+      "duration": 4.88
+    },
+    {
+      "text": "this is going to specify what column it",
+      "start": 1228.24,
+      "duration": 3.2
+    },
+    {
+      "text": "accesses so what this",
+      "start": 1229.76,
+      "duration": 3.52
+    },
+    {
+      "text": "is doing is it's just going through and",
+      "start": 1231.44,
+      "duration": 3.92
+    },
+    {
+      "text": "it's saying for each row",
+      "start": 1233.28,
+      "duration": 4.639
+    },
+    {
+      "text": "go to the column specified by the label",
+      "start": 1235.36,
+      "duration": 3.36
+    },
+    {
+      "text": "in y",
+      "start": 1237.919,
+      "duration": 3.201
+    },
+    {
+      "text": "and set it to one right and that's",
+      "start": 1238.72,
+      "duration": 4.4
+    },
+    {
+      "text": "beautiful that's exactly what we want",
+      "start": 1241.12,
+      "duration": 4
+    },
+    {
+      "text": "um that'll that'll do the one hot",
+      "start": 1243.12,
+      "duration": 3.52
+    },
+    {
+      "text": "encoding for us and the one last thing",
+      "start": 1245.12,
+      "duration": 2.32
+    },
+    {
+      "text": "we want to do is just",
+      "start": 1246.64,
+      "duration": 3.919
+    },
+    {
+      "text": "flip this okay one",
+      "start": 1247.44,
+      "duration": 7.04
+    },
+    {
+      "text": "hot y dot t and then we can return one",
+      "start": 1250.559,
+      "duration": 4.48
+    },
+    {
+      "text": "hot",
+      "start": 1254.48,
+      "duration": 3.04
+    },
+    {
+      "text": "y and we want to flip it because right",
+      "start": 1255.039,
+      "duration": 3.921
+    },
+    {
+      "text": "now um",
+      "start": 1257.52,
+      "duration": 3.84
+    },
+    {
+      "text": "right now each row is an example and we",
+      "start": 1258.96,
+      "duration": 4.24
+    },
+    {
+      "text": "want it the other way around we want",
+      "start": 1261.36,
+      "duration": 4.48
+    },
+    {
+      "text": "uh each column to be in an example so",
+      "start": 1263.2,
+      "duration": 3.92
+    },
+    {
+      "text": "we'll transpose it",
+      "start": 1265.84,
+      "duration": 4.24
+    },
+    {
+      "text": "and uh and return it back here so",
+      "start": 1267.12,
+      "duration": 3.84
+    },
+    {
+      "text": "perfect",
+      "start": 1270.08,
+      "duration": 4.24
+    },
+    {
+      "text": "now we're going to go um one hot y is",
+      "start": 1270.96,
+      "duration": 4.079
+    },
+    {
+      "text": "equal to",
+      "start": 1274.32,
+      "duration": 4.08
+    },
+    {
+      "text": "1 plot of y which you look at that",
+      "start": 1275.039,
+      "duration": 6.401
+    },
+    {
+      "text": "and dz2 okay this is a new variable is",
+      "start": 1278.4,
+      "duration": 4.32
+    },
+    {
+      "text": "equal to",
+      "start": 1281.44,
+      "duration": 4.8
+    },
+    {
+      "text": "a2 our predictions minus 1 hot y",
+      "start": 1282.72,
+      "duration": 6.959
+    },
+    {
+      "text": "dw2 now is going to be equal to 1 over",
+      "start": 1286.24,
+      "duration": 6.48
+    },
+    {
+      "text": "m okay let's define m",
+      "start": 1289.679,
+      "duration": 6
+    },
+    {
+      "text": "m is going to be y dot size okay just",
+      "start": 1292.72,
+      "duration": 3.439
+    },
+    {
+      "text": "like we",
+      "start": 1295.679,
+      "duration": 4.161
+    },
+    {
+      "text": "did before one over m",
+      "start": 1296.159,
+      "duration": 9.041
+    },
+    {
+      "text": "times d z oops dz2",
+      "start": 1299.84,
+      "duration": 9.36
+    },
+    {
+      "text": "looks like this is a dc2.a1.t",
+      "start": 1305.2,
+      "duration": 7.76
+    },
+    {
+      "text": "um yeah i believe that's right i believe",
+      "start": 1309.2,
+      "duration": 5.599
+    },
+    {
+      "text": "that's right",
+      "start": 1312.96,
+      "duration": 6.24
+    },
+    {
+      "text": "nextd b2 is db2 is just 1 over",
+      "start": 1314.799,
+      "duration": 7.76
+    },
+    {
+      "text": "m times mp dot sum",
+      "start": 1319.2,
+      "duration": 7.68
+    },
+    {
+      "text": "of dz2 and then we want our dz1 which is",
+      "start": 1322.559,
+      "duration": 4.801
+    },
+    {
+      "text": "going to be",
+      "start": 1326.88,
+      "duration": 4.4
+    },
+    {
+      "text": "our fancy formula here um",
+      "start": 1327.36,
+      "duration": 8.559
+    },
+    {
+      "text": "it's going to be w2 dot transpose dot",
+      "start": 1331.28,
+      "duration": 8.639
+    },
+    {
+      "text": "um dotted with d z2 so this is kind of",
+      "start": 1335.919,
+      "duration": 5.441
+    },
+    {
+      "text": "applying the weights in reverse",
+      "start": 1339.919,
+      "duration": 3.601
+    },
+    {
+      "text": "and now we're going to have to implement",
+      "start": 1341.36,
+      "duration": 4.16
+    },
+    {
+      "text": "the derivative of the activation",
+      "start": 1343.52,
+      "duration": 2.48
+    },
+    {
+      "text": "function",
+      "start": 1345.52,
+      "duration": 3.2
+    },
+    {
+      "text": "in layer one and the activation function",
+      "start": 1346,
+      "duration": 4.72
+    },
+    {
+      "text": "in layer one remember was relu so we're",
+      "start": 1348.72,
+      "duration": 3.839
+    },
+    {
+      "text": "gonna implement the derive",
+      "start": 1350.72,
+      "duration": 5.28
+    },
+    {
+      "text": "derivative of relu and um and that seems",
+      "start": 1352.559,
+      "duration": 4.161
+    },
+    {
+      "text": "kind of fancy",
+      "start": 1356,
+      "duration": 2.4
+    },
+    {
+      "text": "at first and i was freaked out when i",
+      "start": 1356.72,
+      "duration": 3.04
+    },
+    {
+      "text": "was uh i was first you know i was like",
+      "start": 1358.4,
+      "duration": 1.92
+    },
+    {
+      "text": "how",
+      "start": 1359.76,
+      "duration": 2.32
+    },
+    {
+      "text": "how on earth am i supposed to do this",
+      "start": 1360.32,
+      "duration": 3.92
+    },
+    {
+      "text": "but it's actually",
+      "start": 1362.08,
+      "duration": 3.68
+    },
+    {
+      "text": "really easy just think about your",
+      "start": 1364.24,
+      "duration": 3.6
+    },
+    {
+      "text": "calculus right what is the slope of this",
+      "start": 1365.76,
+      "duration": 3.279
+    },
+    {
+      "text": "this part here",
+      "start": 1367.84,
+      "duration": 3.839
+    },
+    {
+      "text": "it's one right it's just a uh it's just",
+      "start": 1369.039,
+      "duration": 3.201
+    },
+    {
+      "text": "a linear",
+      "start": 1371.679,
+      "duration": 2.721
+    },
+    {
+      "text": "linear thing what's the slope of this",
+      "start": 1372.24,
+      "duration": 3.919
+    },
+    {
+      "text": "part here it's a zero right it's a flat",
+      "start": 1374.4,
+      "duration": 2.399
+    },
+    {
+      "text": "line",
+      "start": 1376.159,
+      "duration": 2.88
+    },
+    {
+      "text": "so a really elegant way to do this is",
+      "start": 1376.799,
+      "duration": 3.76
+    },
+    {
+      "text": "just return",
+      "start": 1379.039,
+      "duration": 4.161
+    },
+    {
+      "text": "z is greater than zero well this works",
+      "start": 1380.559,
+      "duration": 3.441
+    },
+    {
+      "text": "because uh",
+      "start": 1383.2,
+      "duration": 2.56
+    },
+    {
+      "text": "when booleans are converted to numbers",
+      "start": 1384,
+      "duration": 3.28
+    },
+    {
+      "text": "true converts to one and",
+      "start": 1385.76,
+      "duration": 3.52
+    },
+    {
+      "text": "false converts to zero if one element in",
+      "start": 1387.28,
+      "duration": 3.36
+    },
+    {
+      "text": "z is greater than zero we're going to",
+      "start": 1389.28,
+      "duration": 2.08
+    },
+    {
+      "text": "return one",
+      "start": 1390.64,
+      "duration": 2.399
+    },
+    {
+      "text": "and if otherwise we'll return zero which",
+      "start": 1391.36,
+      "duration": 3.84
+    },
+    {
+      "text": "is exactly the derivative that we want",
+      "start": 1393.039,
+      "duration": 4
+    },
+    {
+      "text": "beautiful and then now the same thing as",
+      "start": 1395.2,
+      "duration": 5.44
+    },
+    {
+      "text": "uh same thing as we did before",
+      "start": 1397.039,
+      "duration": 3.601
+    },
+    {
+      "text": "oops uh i believe it's",
+      "start": 1400.84,
+      "duration": 4.6
+    },
+    {
+      "text": "it's actually going to want x as well",
+      "start": 1402.96,
+      "duration": 3.04
+    },
+    {
+      "text": "because",
+      "start": 1405.44,
+      "duration": 3.599
+    },
+    {
+      "text": "we're going to have x t x dot t here",
+      "start": 1406,
+      "duration": 6.32
+    },
+    {
+      "text": "um dz1 oh my goodness that was",
+      "start": 1409.039,
+      "duration": 8.721
+    },
+    {
+      "text": "not what i wanted to do come on",
+      "start": 1412.32,
+      "duration": 6.88
+    },
+    {
+      "text": "there we go and then from here we're",
+      "start": 1417.76,
+      "duration": 3.279
+    },
+    {
+      "text": "going to return dw1",
+      "start": 1419.2,
+      "duration": 5.359
+    },
+    {
+      "text": "db1 dw2 db2",
+      "start": 1421.039,
+      "duration": 6.081
+    },
+    {
+      "text": "and we go def def update params now all",
+      "start": 1424.559,
+      "duration": 4.281
+    },
+    {
+      "text": "right we're all the way down to update",
+      "start": 1427.12,
+      "duration": 3.2
+    },
+    {
+      "text": "params",
+      "start": 1428.84,
+      "duration": 4.92
+    },
+    {
+      "text": "and we're going to take in here dw1",
+      "start": 1430.32,
+      "duration": 7.2
+    },
+    {
+      "text": "db1 dw2 db2",
+      "start": 1433.76,
+      "duration": 5.12
+    },
+    {
+      "text": "and actually before that i'm just going",
+      "start": 1437.52,
+      "duration": 3.039
+    },
+    {
+      "text": "to take in w1",
+      "start": 1438.88,
+      "duration": 5.76
+    },
+    {
+      "text": "b1 w2 b2 um",
+      "start": 1440.559,
+      "duration": 7.761
+    },
+    {
+      "text": "and then alpha right i'm going to go w1",
+      "start": 1444.64,
+      "duration": 5.279
+    },
+    {
+      "text": "is equal to w1 this part is really",
+      "start": 1448.32,
+      "duration": 3.12
+    },
+    {
+      "text": "straightforward right times alpha times",
+      "start": 1449.919,
+      "duration": 2.321
+    },
+    {
+      "text": "dw1",
+      "start": 1451.44,
+      "duration": 5.68
+    },
+    {
+      "text": "to b1 equals b1 minus alpha times db1",
+      "start": 1452.24,
+      "duration": 7.2
+    },
+    {
+      "text": "and then we'll do the same thing for two",
+      "start": 1457.12,
+      "duration": 3.84
+    },
+    {
+      "text": "and then we're going to return our new",
+      "start": 1459.44,
+      "duration": 3.44
+    },
+    {
+      "text": "w1 b1 w2",
+      "start": 1460.96,
+      "duration": 4.719
+    },
+    {
+      "text": "b2 perfect so in theory if that's",
+      "start": 1462.88,
+      "duration": 3.919
+    },
+    {
+      "text": "correctly implemented",
+      "start": 1465.679,
+      "duration": 3.281
+    },
+    {
+      "text": "that is all of the functions that we",
+      "start": 1466.799,
+      "duration": 3.12
+    },
+    {
+      "text": "need for",
+      "start": 1468.96,
+      "duration": 2.48
+    },
+    {
+      "text": "doing our gradient descent on our new",
+      "start": 1469.919,
+      "duration": 3.521
+    },
+    {
+      "text": "network def uh gradient descent that's",
+      "start": 1471.44,
+      "duration": 3.119
+    },
+    {
+      "text": "what we're going to do now",
+      "start": 1473.44,
+      "duration": 2.64
+    },
+    {
+      "text": "we're going to take x and y first",
+      "start": 1474.559,
+      "duration": 2.881
+    },
+    {
+      "text": "because we need both of those and then",
+      "start": 1476.08,
+      "duration": 3.599
+    },
+    {
+      "text": "we're going to take iterations",
+      "start": 1477.44,
+      "duration": 5.92
+    },
+    {
+      "text": "um alpha and i believe that's",
+      "start": 1479.679,
+      "duration": 6.081
+    },
+    {
+      "text": "all that we need so first we're going to",
+      "start": 1483.36,
+      "duration": 3.6
+    },
+    {
+      "text": "go w1",
+      "start": 1485.76,
+      "duration": 4.96
+    },
+    {
+      "text": "b1 w2 b2 is equal to init",
+      "start": 1486.96,
+      "duration": 5.599
+    },
+    {
+      "text": "params okay that's going to return us",
+      "start": 1490.72,
+      "duration": 3.839
+    },
+    {
+      "text": "that these are our initial values",
+      "start": 1492.559,
+      "duration": 3.681
+    },
+    {
+      "text": "um and now we're going to we're going to",
+      "start": 1494.559,
+      "duration": 3.041
+    },
+    {
+      "text": "run that loop we were talking about",
+      "start": 1496.24,
+      "duration": 1.919
+    },
+    {
+      "text": "right so",
+      "start": 1497.6,
+      "duration": 4.88
+    },
+    {
+      "text": "4 i in range iterations",
+      "start": 1498.159,
+      "duration": 7.681
+    },
+    {
+      "text": "first one go four prop right z1 a1 c2",
+      "start": 1502.48,
+      "duration": 6.24
+    },
+    {
+      "text": "a2 equals forward prop and we're going",
+      "start": 1505.84,
+      "duration": 4.56
+    },
+    {
+      "text": "to pass in w1b1",
+      "start": 1508.72,
+      "duration": 6.24
+    },
+    {
+      "text": "w2 b2 next we're going to get our wd w1",
+      "start": 1510.4,
+      "duration": 7.84
+    },
+    {
+      "text": "db1 dw2 db2",
+      "start": 1514.96,
+      "duration": 6.16
+    },
+    {
+      "text": "from backprop and then lastly we're",
+      "start": 1518.24,
+      "duration": 4.16
+    },
+    {
+      "text": "going to update our weights right when i",
+      "start": 1521.12,
+      "duration": 2.32
+    },
+    {
+      "text": "say w1",
+      "start": 1522.4,
+      "duration": 4.72
+    },
+    {
+      "text": "b1 w2 b2 is now going to equal to update",
+      "start": 1523.44,
+      "duration": 6.96
+    },
+    {
+      "text": "params w1 v1 w2 p2",
+      "start": 1527.12,
+      "duration": 7.2
+    },
+    {
+      "text": "pw1 db1 uh",
+      "start": 1530.4,
+      "duration": 7.279
+    },
+    {
+      "text": "dw2 db2 and alpha",
+      "start": 1534.32,
+      "duration": 5.2
+    },
+    {
+      "text": "and that's going to run a bunch of times",
+      "start": 1537.679,
+      "duration": 4.561
+    },
+    {
+      "text": "and um and by the end of it",
+      "start": 1539.52,
+      "duration": 5.36
+    },
+    {
+      "text": "it will return the uh the params that we",
+      "start": 1542.24,
+      "duration": 3.2
+    },
+    {
+      "text": "want",
+      "start": 1544.88,
+      "duration": 2.159
+    },
+    {
+      "text": "we're gonna make a few things just to to",
+      "start": 1545.44,
+      "duration": 3.28
+    },
+    {
+      "text": "so that we can actually see our progress",
+      "start": 1547.039,
+      "duration": 4.161
+    },
+    {
+      "text": "i'm gonna cheat a bit and check my uh",
+      "start": 1548.72,
+      "duration": 4.24
+    },
+    {
+      "text": "check the time that i i did this last",
+      "start": 1551.2,
+      "duration": 2.959
+    },
+    {
+      "text": "we're just gonna steal these two",
+      "start": 1552.96,
+      "duration": 3.04
+    },
+    {
+      "text": "functions here all right we're gonna",
+      "start": 1554.159,
+      "duration": 5.601
+    },
+    {
+      "text": "do here is if i mod uh 10",
+      "start": 1556,
+      "duration": 7.36
+    },
+    {
+      "text": "is equal to zero so every tenth",
+      "start": 1559.76,
+      "duration": 6.399
+    },
+    {
+      "text": "iteration we are going to print",
+      "start": 1563.36,
+      "duration": 7.12
+    },
+    {
+      "text": "iteration uh and i",
+      "start": 1566.159,
+      "duration": 8.4
+    },
+    {
+      "text": "and then print uh accuracy",
+      "start": 1570.48,
+      "duration": 8
+    },
+    {
+      "text": "oops it's gonna be a little ugly",
+      "start": 1574.559,
+      "duration": 7.201
+    },
+    {
+      "text": "get predictions a2 all right so we're",
+      "start": 1578.48,
+      "duration": 5.199
+    },
+    {
+      "text": "going to take our a2 which is our our",
+      "start": 1581.76,
+      "duration": 3.84
+    },
+    {
+      "text": "predictions from forward prop",
+      "start": 1583.679,
+      "duration": 3.841
+    },
+    {
+      "text": "and get predictions from those and then",
+      "start": 1585.6,
+      "duration": 3.6
+    },
+    {
+      "text": "get accuracy on that and",
+      "start": 1587.52,
+      "duration": 6.08
+    },
+    {
+      "text": "why okay and then it'll return that so",
+      "start": 1589.2,
+      "duration": 4.959
+    },
+    {
+      "text": "let's",
+      "start": 1593.6,
+      "duration": 2.319
+    },
+    {
+      "text": "run that so all those functions are",
+      "start": 1594.159,
+      "duration": 3.361
+    },
+    {
+      "text": "defined now",
+      "start": 1595.919,
+      "duration": 3.76
+    },
+    {
+      "text": "now let's run gradient descent and see",
+      "start": 1597.52,
+      "duration": 3.2
+    },
+    {
+      "text": "what happens and",
+      "start": 1599.679,
+      "duration": 4.641
+    },
+    {
+      "text": "i'll take these parameters w1 v1 w2",
+      "start": 1600.72,
+      "duration": 6.959
+    },
+    {
+      "text": "b2 is equal to green sent",
+      "start": 1604.32,
+      "duration": 6.64
+    },
+    {
+      "text": "x y iterations",
+      "start": 1607.679,
+      "duration": 6.081
+    },
+    {
+      "text": "oh x train y train now we're using the",
+      "start": 1610.96,
+      "duration": 4.319
+    },
+    {
+      "text": "actual variables",
+      "start": 1613.76,
+      "duration": 3.519
+    },
+    {
+      "text": "and we're going to go for let's say 100",
+      "start": 1615.279,
+      "duration": 5.121
+    },
+    {
+      "text": "iterations with a learning rate of 0.1",
+      "start": 1617.279,
+      "duration": 5.121
+    },
+    {
+      "text": "editing samsung here so because of those",
+      "start": 1620.4,
+      "duration": 4.159
+    },
+    {
+      "text": "two errors early in the video namely",
+      "start": 1622.4,
+      "duration": 3.68
+    },
+    {
+      "text": "initializing weights and biases to all",
+      "start": 1624.559,
+      "duration": 3.12
+    },
+    {
+      "text": "negative numbers and putting in an a1",
+      "start": 1626.08,
+      "duration": 2.959
+    },
+    {
+      "text": "where there should have been a z2",
+      "start": 1627.679,
+      "duration": 2.88
+    },
+    {
+      "text": "of course the model did not run well it",
+      "start": 1629.039,
+      "duration": 3.441
+    },
+    {
+      "text": "ended up with 10 accuracy which is just",
+      "start": 1630.559,
+      "duration": 4.321
+    },
+    {
+      "text": "random guessing and i spent like an hour",
+      "start": 1632.48,
+      "duration": 3.439
+    },
+    {
+      "text": "just debugging",
+      "start": 1634.88,
+      "duration": 2.799
+    },
+    {
+      "text": "uh in the end just to change those two",
+      "start": 1635.919,
+      "duration": 3.281
+    },
+    {
+      "text": "variables right all the rest of the code",
+      "start": 1637.679,
+      "duration": 3.281
+    },
+    {
+      "text": "is is okay i didn't change any of that",
+      "start": 1639.2,
+      "duration": 3.44
+    },
+    {
+      "text": "i'm just gonna skip over all of that in",
+      "start": 1640.96,
+      "duration": 3.36
+    },
+    {
+      "text": "editing and we're gonna go straight to",
+      "start": 1642.64,
+      "duration": 3.12
+    },
+    {
+      "text": "the end straight to an hour later when i",
+      "start": 1644.32,
+      "duration": 2.959
+    },
+    {
+      "text": "figured out what was wrong and",
+      "start": 1645.76,
+      "duration": 10.08
+    },
+    {
+      "text": "finally ran the model and go here",
+      "start": 1647.279,
+      "duration": 8.561
+    },
+    {
+      "text": "but look at that 75 percent accuracy 78",
+      "start": 1657.279,
+      "duration": 12.561
+    },
+    {
+      "text": "at iteration 250.",
+      "start": 1659.919,
+      "duration": 9.921
+    },
+    {
+      "text": "84 accuracy on training data is what we",
+      "start": 1672.96,
+      "duration": 4.16
+    },
+    {
+      "text": "got so there's definitely a lot of room",
+      "start": 1675.36,
+      "duration": 2.799
+    },
+    {
+      "text": "left for improvement",
+      "start": 1677.12,
+      "duration": 2.48
+    },
+    {
+      "text": "things like adding more layers adding",
+      "start": 1678.159,
+      "duration": 3.601
+    },
+    {
+      "text": "more unit cell layers but",
+      "start": 1679.6,
+      "duration": 4.24
+    },
+    {
+      "text": "but 84 for this for something that we",
+      "start": 1681.76,
+      "duration": 4
+    },
+    {
+      "text": "threw together in less than 30 minutes",
+      "start": 1683.84,
+      "duration": 5.12
+    },
+    {
+      "text": "is not bad it's not bad so let's",
+      "start": 1685.76,
+      "duration": 5.6
+    },
+    {
+      "text": "try out a few things let's now and i'm",
+      "start": 1688.96,
+      "duration": 3.12
+    },
+    {
+      "text": "just gonna",
+      "start": 1691.36,
+      "duration": 2.48
+    },
+    {
+      "text": "rip code straight off from my old thing",
+      "start": 1692.08,
+      "duration": 4.16
+    },
+    {
+      "text": "now this is just a function to",
+      "start": 1693.84,
+      "duration": 4.4
+    },
+    {
+      "text": "make that prediction and then print out",
+      "start": 1696.24,
+      "duration": 3.2
+    },
+    {
+      "text": "the prediction and label and then",
+      "start": 1698.24,
+      "duration": 3.12
+    },
+    {
+      "text": "display the image so once we've defined",
+      "start": 1699.44,
+      "duration": 4.719
+    },
+    {
+      "text": "that let's do test prediction",
+      "start": 1701.36,
+      "duration": 4.64
+    },
+    {
+      "text": "uh let's test out let's just random",
+      "start": 1704.159,
+      "duration": 4.64
+    },
+    {
+      "text": "number doesn't matter if you want to b2",
+      "start": 1706,
+      "duration": 6.08
+    },
+    {
+      "text": "so bang it's zero uh our",
+      "start": 1708.799,
+      "duration": 5.6
+    },
+    {
+      "text": "model predicts a zero and the label is",
+      "start": 1712.08,
+      "duration": 3.36
+    },
+    {
+      "text": "zero",
+      "start": 1714.399,
+      "duration": 3.76
+    },
+    {
+      "text": "um let's do the second one so there we",
+      "start": 1715.44,
+      "duration": 3.52
+    },
+    {
+      "text": "go",
+      "start": 1718.159,
+      "duration": 4.081
+    },
+    {
+      "text": "uh let's do this one uh so yeah so this",
+      "start": 1718.96,
+      "duration": 4.64
+    },
+    {
+      "text": "is a tricky one",
+      "start": 1722.24,
+      "duration": 2.96
+    },
+    {
+      "text": "you know this is a weird you could see",
+      "start": 1723.6,
+      "duration": 3.36
+    },
+    {
+      "text": "maybe it's a four or maybe it's a",
+      "start": 1725.2,
+      "duration": 3.68
+    },
+    {
+      "text": "five or so i don't know something weird",
+      "start": 1726.96,
+      "duration": 3.68
+    },
+    {
+      "text": "but no the the model did it it's an",
+      "start": 1728.88,
+      "duration": 3.039
+    },
+    {
+      "text": "eight and the label is an eight",
+      "start": 1730.64,
+      "duration": 4.159
+    },
+    {
+      "text": "i need to find one that it mislabels um",
+      "start": 1731.919,
+      "duration": 4.24
+    },
+    {
+      "text": "because the missed labels are pretty",
+      "start": 1734.799,
+      "duration": 3.921
+    },
+    {
+      "text": "interesting as well",
+      "start": 1736.159,
+      "duration": 6.4
+    },
+    {
+      "text": "uh okay we are going sequentially and",
+      "start": 1738.72,
+      "duration": 5.76
+    },
+    {
+      "text": "we're not finding one that's mislabeled",
+      "start": 1742.559,
+      "duration": 4.961
+    },
+    {
+      "text": "it's doing really well",
+      "start": 1744.48,
+      "duration": 3.04
+    },
+    {
+      "text": "here we go here's one okay yeah so this",
+      "start": 1748.159,
+      "duration": 3.76
+    },
+    {
+      "text": "is a jank 3 and it labeled it a five",
+      "start": 1750.159,
+      "duration": 2.88
+    },
+    {
+      "text": "right because you can definitely see",
+      "start": 1751.919,
+      "duration": 2.721
+    },
+    {
+      "text": "like just like put the thing here and",
+      "start": 1753.039,
+      "duration": 3.201
+    },
+    {
+      "text": "it's like a perfect five this is the",
+      "start": 1754.64,
+      "duration": 2.56
+    },
+    {
+      "text": "kind of thing that",
+      "start": 1756.24,
+      "duration": 2.72
+    },
+    {
+      "text": "if you had more layers if you had more",
+      "start": 1757.2,
+      "duration": 4.4
+    },
+    {
+      "text": "units uh you'd be able to recognize it",
+      "start": 1758.96,
+      "duration": 3.28
+    },
+    {
+      "text": "better",
+      "start": 1761.6,
+      "duration": 2.64
+    },
+    {
+      "text": "that this this model wasn't quite",
+      "start": 1762.24,
+      "duration": 3.039
+    },
+    {
+      "text": "complex enough to",
+      "start": 1764.24,
+      "duration": 4
+    },
+    {
+      "text": "to capture that like basically like a 45",
+      "start": 1765.279,
+      "duration": 4.561
+    },
+    {
+      "text": "degree rotation here but you know we",
+      "start": 1768.24,
+      "duration": 2.88
+    },
+    {
+      "text": "went through a good amount without",
+      "start": 1769.84,
+      "duration": 3.28
+    },
+    {
+      "text": "finding uh one that was was mislabeled",
+      "start": 1771.12,
+      "duration": 3.52
+    },
+    {
+      "text": "so this is definitely a model that that",
+      "start": 1773.12,
+      "duration": 2.88
+    },
+    {
+      "text": "actually worked just to do the last step",
+      "start": 1774.64,
+      "duration": 2.8
+    },
+    {
+      "text": "i want to check with the cross",
+      "start": 1776,
+      "duration": 3.44
+    },
+    {
+      "text": "validation accuracy",
+      "start": 1777.44,
+      "duration": 5.119
+    },
+    {
+      "text": "on this is x",
+      "start": 1779.44,
+      "duration": 6.4
+    },
+    {
+      "text": "dev w1 b1 w2 b2",
+      "start": 1782.559,
+      "duration": 7.281
+    },
+    {
+      "text": "okay and then dev predictions okay",
+      "start": 1785.84,
+      "duration": 5.76
+    },
+    {
+      "text": "let's run that through and okay look at",
+      "start": 1789.84,
+      "duration": 4.16
+    },
+    {
+      "text": "that that's an 86 85.5",
+      "start": 1791.6,
+      "duration": 4.559
+    },
+    {
+      "text": "percent accuracy on the dev set so",
+      "start": 1794,
+      "duration": 3.52
+    },
+    {
+      "text": "that's not the training data",
+      "start": 1796.159,
+      "duration": 2.721
+    },
+    {
+      "text": "we didn't train on this data this is",
+      "start": 1797.52,
+      "duration": 2.879
+    },
+    {
+      "text": "effectively testing data right we",
+      "start": 1798.88,
+      "duration": 3.279
+    },
+    {
+      "text": "haven't done any optimization for this",
+      "start": 1800.399,
+      "duration": 2.321
+    },
+    {
+      "text": "data",
+      "start": 1802.159,
+      "duration": 3.841
+    },
+    {
+      "text": "and um 85.5",
+      "start": 1802.72,
+      "duration": 6.64
+    },
+    {
+      "text": "accuracy that's pretty good there you go",
+      "start": 1806,
+      "duration": 4.96
+    },
+    {
+      "text": "we've done it we've done it we built a",
+      "start": 1809.36,
+      "duration": 3.199
+    },
+    {
+      "text": "neural network from scratch",
+      "start": 1810.96,
+      "duration": 3.28
+    },
+    {
+      "text": "and maybe watching me code through it",
+      "start": 1812.559,
+      "duration": 3.6
+    },
+    {
+      "text": "watching me explain those equations",
+      "start": 1814.24,
+      "duration": 4
+    },
+    {
+      "text": "hopefully it helped a bit um i'll have a",
+      "start": 1816.159,
+      "duration": 3.361
+    },
+    {
+      "text": "link in the description",
+      "start": 1818.24,
+      "duration": 3.84
+    },
+    {
+      "text": "to an article a blog post that i'll put",
+      "start": 1819.52,
+      "duration": 4.399
+    },
+    {
+      "text": "up just with all these notes",
+      "start": 1822.08,
+      "duration": 3.76
+    },
+    {
+      "text": "um i'll have a link to this notebook so",
+      "start": 1823.919,
+      "duration": 2.961
+    },
+    {
+      "text": "you can look through all the code you",
+      "start": 1825.84,
+      "duration": 2.559
+    },
+    {
+      "text": "can look through all the equations",
+      "start": 1826.88,
+      "duration": 2.96
+    },
+    {
+      "text": "you can figure everything out for",
+      "start": 1828.399,
+      "duration": 3.52
+    },
+    {
+      "text": "yourself if you so desire",
+      "start": 1829.84,
+      "duration": 3.6
+    },
+    {
+      "text": "there's a lot of other stuff to explore",
+      "start": 1831.919,
+      "duration": 3.201
+    },
+    {
+      "text": "implementing manually right so things",
+      "start": 1833.44,
+      "duration": 3.04
+    },
+    {
+      "text": "like regularization",
+      "start": 1835.12,
+      "duration": 3.039
+    },
+    {
+      "text": "different optimization methods right so",
+      "start": 1836.48,
+      "duration": 3.199
+    },
+    {
+      "text": "instead of just gradient descent there's",
+      "start": 1838.159,
+      "duration": 3.281
+    },
+    {
+      "text": "gradient descent with momentum",
+      "start": 1839.679,
+      "duration": 4
+    },
+    {
+      "text": "there's rms prop there's atom",
+      "start": 1841.44,
+      "duration": 3.2
+    },
+    {
+      "text": "optimization",
+      "start": 1843.679,
+      "duration": 2.48
+    },
+    {
+      "text": "which are all just variants of gradient",
+      "start": 1844.64,
+      "duration": 3.279
+    },
+    {
+      "text": "descent and they're fairly simple to",
+      "start": 1846.159,
+      "duration": 2.721
+    },
+    {
+      "text": "implement but",
+      "start": 1847.919,
+      "duration": 2
+    },
+    {
+      "text": "it could be interesting just to",
+      "start": 1848.88,
+      "duration": 2.799
+    },
+    {
+      "text": "implement that yourself and see what the",
+      "start": 1849.919,
+      "duration": 2.64
+    },
+    {
+      "text": "impact is",
+      "start": 1851.679,
+      "duration": 3.521
+    },
+    {
+      "text": "yeah this is a fun exercise it's always",
+      "start": 1852.559,
+      "duration": 3.921
+    },
+    {
+      "text": "satisfying to",
+      "start": 1855.2,
+      "duration": 3.28
+    },
+    {
+      "text": "see the accuracy go up like that it's",
+      "start": 1856.48,
+      "duration": 3.76
+    },
+    {
+      "text": "satisfying to see on like a model that",
+      "start": 1858.48,
+      "duration": 3.6
+    },
+    {
+      "text": "you train using like keras",
+      "start": 1860.24,
+      "duration": 3.279
+    },
+    {
+      "text": "tensorflow and it's it's all the more",
+      "start": 1862.08,
+      "duration": 3.199
+    },
+    {
+      "text": "satisfying to see on a model that you",
+      "start": 1863.519,
+      "duration": 3.601
+    },
+    {
+      "text": "built yourself that'll be it for this",
+      "start": 1865.279,
+      "duration": 4
+    },
+    {
+      "text": "video just a simple demo of how you can",
+      "start": 1867.12,
+      "duration": 3.84
+    },
+    {
+      "text": "build out all the math that's on this",
+      "start": 1869.279,
+      "duration": 3.841
+    },
+    {
+      "text": "screen here i hope this gave you a more",
+      "start": 1870.96,
+      "duration": 4
+    },
+    {
+      "text": "concrete understanding of",
+      "start": 1873.12,
+      "duration": 4.24
+    },
+    {
+      "text": "how neural networks work maybe piqued",
+      "start": 1874.96,
+      "duration": 3.36
+    },
+    {
+      "text": "your interest to",
+      "start": 1877.36,
+      "duration": 2.72
+    },
+    {
+      "text": "dive into the math and do some more",
+      "start": 1878.32,
+      "duration": 4
+    },
+    {
+      "text": "yourself thanks for watching this video",
+      "start": 1880.08,
+      "duration": 4.479
+    },
+    {
+      "text": "and i'll see you guys in future videos",
+      "start": 1882.32,
+      "duration": 3.199
+    },
+    {
+      "text": "if you decide to",
+      "start": 1884.559,
+      "duration": 4.72
+    },
+    {
+      "text": "stick around",
+      "start": 1885.519,
+      "duration": 3.76
+    }
+  ],
+  "metadata": {
+    "title": "Building a neural network FROM SCRATCH (no Tensorflow/Pytorch, just numpy & math)",
+    "author_name": "Samson Zhang",
+    "author_url": "https://www.youtube.com/@SamsonZhangTheSalmon",
+    "thumbnail_url": "https://i.ytimg.com/vi/w8yWXqWQYmU/hqdefault.jpg"
+  }
+}

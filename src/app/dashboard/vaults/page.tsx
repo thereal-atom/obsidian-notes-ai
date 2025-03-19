@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import { z } from "zod";
-import { useDashboardStore } from "~/store/dashboard-store";
-import { api } from "~/trpc/react";
-import { validateFormData } from "~/utils/forms";
+import { useDashboardStore } from "@/stores/dashboard-store";
+import { api } from "@/trpc/react";
+import { validateFormData } from "@/utils/forms";
 
 export default function VaultsPage() {
     const vaults = useDashboardStore(state => state.vaults);
